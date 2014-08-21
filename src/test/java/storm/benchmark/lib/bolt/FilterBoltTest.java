@@ -25,22 +25,24 @@ import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import storm.benchmark.lib.operation.Filter;
 import storm.benchmark.util.MockTupleHelpers;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 public class FilterBoltTest {
-  private static final String TO_FILTER = "to_filter";
-  private static final String NON_FILTER = "non_filter";
+  private static final String ANY_FIELDS = "any_fields";
+  private static final String ANY_VALUES = "any_values";
   private FilterBolt bolt;
+  private Filter filter;
   private Tuple tuple;
   private BasicOutputCollector collector;
   private OutputFieldsDeclarer declarer;
 
   @BeforeMethod
   public void setUp() {
-    bolt = new FilterBolt(TO_FILTER);
+    filter = mock(Filter.class);
     tuple = MockTupleHelpers.mockAnyTuple();
     collector = mock(BasicOutputCollector.class);
     declarer = mock(OutputFieldsDeclarer.class);
@@ -49,6 +51,7 @@ public class FilterBoltTest {
 
   @Test
   public void shouldDeclareOutputFields() {
+    bolt = new FilterBolt(filter, new Fields(ANY_FIELDS));
     bolt.declareOutputFields(declarer);
 
     verify(declarer, times(1)).declare(any(Fields.class));
@@ -56,21 +59,22 @@ public class FilterBoltTest {
 
   @Test
   public void shouldNotEmitIfFiltered() {
-    when(tuple.getValue(0)).thenReturn(TO_FILTER);
+    bolt = new FilterBolt(filter, new Fields());
+
+    when(filter.filter(tuple)).thenReturn(new Values());
 
     bolt.execute(tuple, collector);
 
-    verify(tuple, never()).getValue(1);
     verifyZeroInteractions(collector);
   }
 
   @Test
-  public void shouldEmitSecondFieldIfNotFiltered() {
-    when(tuple.getValue(0)).thenReturn(NON_FILTER);
+  public void shouldEmitIfNotFiltered() {
+    bolt = new FilterBolt(filter, new Fields(ANY_FIELDS));
+    when(filter.filter(tuple)).thenReturn(new Values(ANY_VALUES));
 
     bolt.execute(tuple, collector);
 
-    verify(tuple, times(1)).getValue(1);
     verify(collector, times(1)).emit(any(Values.class));
   }
 }

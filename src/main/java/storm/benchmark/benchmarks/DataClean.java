@@ -24,26 +24,28 @@ import backtype.storm.spout.SchemeAsMultiScheme;
 import backtype.storm.topology.IRichSpout;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.tuple.Fields;
+import backtype.storm.tuple.Tuple;
+import backtype.storm.tuple.Values;
 import storm.benchmark.lib.bolt.FilterBolt;
-import storm.benchmark.lib.bolt.PageViewBolt;
 import storm.benchmark.benchmarks.common.StormBenchmark;
+import storm.benchmark.lib.operation.Filter;
+import storm.benchmark.lib.spout.pageview.PageView;
 import storm.benchmark.util.BenchmarkUtils;
 import storm.benchmark.util.KafkaUtils;
 import storm.kafka.KafkaSpout;
 import storm.kafka.StringScheme;
+
+import java.io.Serializable;
 
 import static storm.benchmark.lib.spout.pageview.PageView.Item;
 
 public class DataClean extends StormBenchmark {
   public final static String SPOUT_ID = "spout";
   public final static String SPOUT_NUM = "component.spout_num";
-  public final static String VIEW_ID = "view";
-  public final static String VIEW_NUM = "component.view_bolt_num";
   public final static String FILTER_ID = "filter";
   public final static String FILTER_NUM = "component.filter_bolt_num";
 
   public static final int DEFAULT_SPOUT_NUM = 4;
-  public static final int DEFAULT_PV_BOLT_NUM = 4;
   public static final int DEFAULT_FITLER_BOLT_NUM = 4;
 
   private IRichSpout spout;
@@ -52,17 +54,28 @@ public class DataClean extends StormBenchmark {
   @Override
   public StormTopology getTopology(Config config) {
     final int spoutNum = BenchmarkUtils.getInt(config, SPOUT_NUM, DEFAULT_SPOUT_NUM);
-    final int pvBoltNum = BenchmarkUtils.getInt(config, VIEW_NUM, DEFAULT_PV_BOLT_NUM);
     final int filterBoltNum = BenchmarkUtils.getInt(config, FILTER_NUM, DEFAULT_FITLER_BOLT_NUM);
     spout = new KafkaSpout(KafkaUtils.getSpoutConfig(
             config, new SchemeAsMultiScheme(new StringScheme())));
 
     TopologyBuilder builder = new TopologyBuilder();
     builder.setSpout(SPOUT_ID, spout, spoutNum);
-    builder.setBolt(VIEW_ID, new PageViewBolt(Item.STATUS, Item.ALL), pvBoltNum)
-            .localOrShuffleGrouping(SPOUT_ID);
-    builder.setBolt(FILTER_ID, new FilterBolt<Integer>(404), filterBoltNum)
-            .fieldsGrouping(VIEW_ID, new Fields(Item.STATUS.toString()));
+    builder.setBolt(FILTER_ID, new FilterBolt(new BadStatusFilter(), new Fields("pageview")),
+            filterBoltNum).localOrShuffleGrouping(SPOUT_ID);
     return builder.createTopology();
+  }
+
+  private static class BadStatusFilter implements Filter, Serializable {
+    private static final long serialVersionUID = 1100622030911096941L;
+
+    @Override
+    public Values filter(Tuple tuple) {
+      PageView view = PageView.fromString(tuple.getString(0));
+      if ((Integer) view.getValue(Item.STATUS) != 404) {
+        return new Values(view);
+      } else {
+        return new Values();
+      }
+    }
   }
 }

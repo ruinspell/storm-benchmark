@@ -24,29 +24,32 @@ import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
+import storm.benchmark.lib.operation.Filter;
 
-public class FilterBolt<T> extends BaseBasicBolt {
+public class FilterBolt extends BaseBasicBolt {
   private static final long serialVersionUID = -4957635695743420459L;
-  public static final String FIELDS = "filtered";
-  private final T toFilter;
+  private final Filter filter;
+  private final Fields fields;
 
-  public FilterBolt(T toFilter) {
-    this.toFilter = toFilter;
+  public FilterBolt(Filter filter, Fields fields) {
+    this.filter = filter;
+    this.fields = fields;
   }
 
   @Override
   public void execute(Tuple input, BasicOutputCollector collector) {
-    if (!filter(input, toFilter)) {
-      collector.emit(new Values(input.getValue(1)));
+    Values output = filter.filter(input);
+    if (output != null) {
+      if (output.size() != fields.size()) {
+        throw new RuntimeException("filter values size mismatches declared output size");
+      } else if (output.size() != 0) {
+        collector.emit(output);
+      }
     }
   }
 
   @Override
   public void declareOutputFields(OutputFieldsDeclarer declarer) {
-    declarer.declare(new Fields(FIELDS));
-  }
-
-  public static <T> boolean filter(Tuple input, T toFilter) {
-    return toFilter.equals(input.getValue(0));
+    declarer.declare(fields);
   }
 }
