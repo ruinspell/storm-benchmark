@@ -55,8 +55,8 @@ public abstract class KafkaProducer  implements IProducer {
   public static final int DEFAULT_SPOUT_NUM = 4;
   public static final int DEFAULT_BOLT_NUM = 4;
 
-  protected IRichSpout spout;
-  protected final IRichBolt bolt = new KafkaBolt<String, String>();
+  private IRichSpout spout;
+  private final IRichBolt bolt = new KafkaBolt<String, String>();
 
   @Override
   public StormTopology getTopology(Config config) {
@@ -69,6 +69,10 @@ public abstract class KafkaProducer  implements IProducer {
     builder.setSpout(SPOUT_ID, spout, spoutNum);
     builder.setBolt(BOLT_ID, bolt, boltNum).localOrShuffleGrouping(SPOUT_ID);
     return builder.createTopology();
+  }
+
+  protected void setSpout(IRichSpout spout) {
+    this.spout = spout;
   }
 
   public IRichSpout getSpout() {
@@ -93,8 +97,7 @@ public abstract class KafkaProducer  implements IProducer {
    * KafkaProducerSpout generates source data for downstream KafkaBolt to
    * write into Kafka. The output fields consist of BOLT_KEY and BOLT_MESSAGE.
    * BOLT_KEY will decide the Kafka partition to write into and BOLT_MESSAGE the
-   * actual message. Users set the number of partitions and by default messages will
-   * be written into each partition in a round-robin way.
+   * actual message.
    */
   public static abstract class KafkaProducerSpout extends BaseRichSpout {
 

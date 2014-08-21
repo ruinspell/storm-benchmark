@@ -30,7 +30,8 @@ public class KafkaWordCount extends WordCount {
 
   @Override
   public StormTopology getTopology(Config config) {
-    spout = new KafkaSpout(KafkaUtils.getSpoutConfig(config, new SchemeAsMultiScheme(new StringScheme())));
+    setSpout(new KafkaSpout(KafkaUtils.getSpoutConfig(config,
+            new SchemeAsMultiScheme(new StringScheme()))));
     return super.getTopology(config);
   }
 }

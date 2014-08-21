@@ -26,7 +26,7 @@ public class PageViewKafkaProducer extends KafkaProducer {
 
   @Override
   public StormTopology getTopology(Config config) {
-    spout = new PageViewSpout();
+    setSpout(new PageViewSpout());
     return super.getTopology(config);
   }
 
