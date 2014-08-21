@@ -30,8 +30,9 @@ TOPIC="fileread"
 
 SPOUT_NUM=4
 BOLT_NUM=4
+FILE_NAME="/resources/A_Tale_of_Two_City.txt"
 
-TOPOLOGY_CONF=topology.name=$TOPOLOGY_NAME,topology.workers=$WORKERS,topology.acker.executors=$ACKERS,topology.max.spout.pending=$PENDING,producer.spout_num=$SPOUT_NUM,producer.bolt_num=$BOLT_NUM
+TOPOLOGY_CONF=topology.name=$TOPOLOGY_NAME,topology.workers=$WORKERS,topology.acker.executors=$ACKERS,topology.max.spout.pending=$PENDING,producer.spout_num=$SPOUT_NUM,producer.bolt_num=$BOLT_NUM,file.name=$FILE_NAME
 KAFKA_CONF=broker.list=$BROKER_LIST,zookeeper.servers=$ZOOKEEPER_SERVERS,kafka.root.path=$KAFKA_ROOT_PATH,topic=$TOPIC
 
 echo "========== running KafkaFileReadProducer =========="
