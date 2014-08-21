@@ -16,7 +16,7 @@
  * limitations under the License
  */
 
-package storm.benchmark.tools;
+package storm.benchmark.tools.local;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
@@ -25,15 +25,16 @@ import backtype.storm.generated.AlreadyAliveException;
 import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.generated.StormTopology;
 import backtype.storm.utils.Utils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.api.IBenchmark;
 import storm.benchmark.metrics.IMetricsCollector;
 import storm.benchmark.metrics.MetricsCollectorConfig;
+import storm.benchmark.tools.Runner;
 import storm.benchmark.util.BenchmarkUtils;
 
 public class LocalRunner {
-  private static final Logger LOG = Logger.getLogger(Runner.class);
-  private static final String PACKAGE = "storm.benchmark.benchmarks";
+  private static final Logger LOG = LoggerFactory.getLogger(Runner.class);
 
   public static void main(String[] args) throws Exception {
     if (null == args || args.length < 1) {
@@ -46,13 +47,13 @@ public class LocalRunner {
           throws ClassNotFoundException, IllegalAccessException,
           InstantiationException, AlreadyAliveException, InvalidTopologyException {
     LOG.info("running benchmark " + name);
-    IBenchmark benchmark =  (IBenchmark) Runner.getApplicationFromName(PACKAGE + "." + name);
+    IBenchmark benchmark =  (IBenchmark) Runner.getApplicationFromName(name);
     Config config = new Config();
     config.putAll(Utils.readStormConfig());
     config.setDebug(true);
     StormTopology topology = benchmark.getTopology(config);
     LocalCluster localCluster = new LocalCluster();
-    localCluster.submitTopology(name, config, topology);
+    localCluster.submitTopology("local", config, topology);
     final int runtime = BenchmarkUtils.getInt(config, MetricsCollectorConfig.METRICS_TOTAL_TIME,
             MetricsCollectorConfig.DEFAULT_TOTAL_TIME);
     IMetricsCollector collector = benchmark.getMetricsCollector(config, topology);

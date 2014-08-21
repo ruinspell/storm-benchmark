@@ -162,7 +162,7 @@
           <includeProjectDependencies>true</includeProjectDependencies>
           <includePluginDependencies>false</includePluginDependencies>
           <classpathScope>compile</classpathScope>
-          <mainClass>storm.benchmark.tools.LocalRunner</mainClass>
+          <mainClass>storm.benchmark.tools.local.LocalRunner</mainClass>
           <arguments>
             <argument>${benchmark}</argument>
           </arguments>
