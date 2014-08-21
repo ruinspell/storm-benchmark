@@ -19,14 +19,15 @@
 package storm.benchmark.lib.operation;
 
 import backtype.storm.tuple.Values;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.trident.operation.BaseFunction;
 import storm.trident.operation.TridentCollector;
 import storm.trident.tuple.TridentTuple;
 
 public class WordSplit extends BaseFunction {
 
-  private static final Logger LOG = Logger.getLogger(WordSplit.class);
+  private static final Logger LOG = LoggerFactory.getLogger(WordSplit.class);
   private static final long serialVersionUID = -8605358179216330897L;
 
   public static String[] splitSentence(String sentence) {

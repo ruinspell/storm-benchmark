@@ -18,7 +18,8 @@
 
 package storm.benchmark.lib.operation;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.trident.operation.CombinerAggregator;
 import storm.trident.tuple.TridentTuple;
 
@@ -27,7 +28,7 @@ import java.util.Set;
 
 public class Distinct implements CombinerAggregator<Set<Integer>> {
 
-  private static final Logger LOG = Logger.getLogger(Distinct.class);
+  private static final Logger LOG = LoggerFactory.getLogger(Distinct.class);
   private static final long serialVersionUID = 7592229830682953885L;
 
   @Override

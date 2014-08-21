@@ -22,7 +22,8 @@ import backtype.storm.Config;
 import backtype.storm.generated.*;
 import backtype.storm.utils.NimbusClient;
 import backtype.storm.utils.Utils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.lib.spout.RandomMessageSpout;
 import storm.benchmark.util.BenchmarkUtils;
 import storm.benchmark.util.FileUtils;
@@ -32,7 +33,7 @@ import java.io.PrintWriter;
 import java.util.*;
 
 public class BasicMetricsCollector implements IMetricsCollector {
-  private static final Logger LOG = Logger.getLogger(BasicMetricsCollector.class);
+  private static final Logger LOG = LoggerFactory.getLogger(BasicMetricsCollector.class);
 
   /* headers */
   public static final String TIME = "time(s)";

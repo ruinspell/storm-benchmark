@@ -24,22 +24,23 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichSpout;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.tools.FileReader;
 
 import java.util.Map;
 
 public class FileReadSpout extends BaseRichSpout {
-  private static final Logger LOG = Logger.getLogger(FileReadSpout.class);
+  private static final Logger LOG = LoggerFactory.getLogger(FileReadSpout.class);
   private static final long serialVersionUID = -2582705611472467172L;
 
-	public static final String DEFAULT_FILE = "/resources/A_Tale_of_Two_City.txt";
+  public static final String DEFAULT_FILE = "/resources/A_Tale_of_Two_City.txt";
   public static final boolean DEFAULT_ACK = false;
   public static final String FIELDS = "sentence";
 
   public final boolean ackEnabled;
   public final FileReader reader;
-	private SpoutOutputCollector collector;
+  private SpoutOutputCollector collector;
 
   private long count = 0;
 
@@ -47,7 +48,6 @@ public class FileReadSpout extends BaseRichSpout {
   public FileReadSpout() {
     this(DEFAULT_ACK, DEFAULT_FILE);
   }
-
 
   public FileReadSpout(boolean ackEnabled) {
     this(ackEnabled, DEFAULT_FILE);

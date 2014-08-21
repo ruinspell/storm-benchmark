@@ -25,10 +25,11 @@ import backtype.storm.generated.AlreadyAliveException;
 import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.generated.StormTopology;
 import backtype.storm.utils.Utils;
-import org.apache.log4j.Logger;
 import org.apache.thrift7.TException;
 import org.apache.thrift7.protocol.TCompactProtocol;
 import org.apache.thrift7.transport.TIOStreamTransport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.api.IApplication;
 import storm.benchmark.api.IBenchmark;
 import storm.benchmark.api.IProducer;
@@ -41,7 +42,7 @@ import java.io.ByteArrayOutputStream;
  * It instantiates an IBenchmark from passed-in name and then run it
  */
 public class Runner {
-  private static final Logger LOG = Logger.getLogger(Runner.class);
+  private static final Logger LOG = LoggerFactory.getLogger(Runner.class);
 
   private static Config config = new Config();
   private static StormTopology topology;

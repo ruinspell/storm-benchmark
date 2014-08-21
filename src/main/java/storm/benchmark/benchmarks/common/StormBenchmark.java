@@ -21,7 +21,8 @@ package storm.benchmark.benchmarks.common;
 import backtype.storm.Config;
 import backtype.storm.generated.StormTopology;
 import com.google.common.collect.Sets;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.api.IBenchmark;
 import storm.benchmark.metrics.BasicMetricsCollector;
 import storm.benchmark.metrics.IMetricsCollector;
@@ -32,7 +33,7 @@ import static storm.benchmark.metrics.IMetricsCollector.MetricsItem;
 
 public abstract class StormBenchmark implements IBenchmark {
 
-  private static final Logger LOG = Logger.getLogger(StormBenchmark.class);
+  private static final Logger LOG = LoggerFactory.getLogger(StormBenchmark.class);
   public static final String DEFAULT_TOPOLOGY_NAME = "benchmark";
 
   @Override

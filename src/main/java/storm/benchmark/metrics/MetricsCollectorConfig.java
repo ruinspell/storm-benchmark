@@ -20,7 +20,8 @@ package storm.benchmark.metrics;
 
 import backtype.storm.Config;
 import backtype.storm.utils.Utils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.benchmarks.common.StormBenchmark;
 import storm.benchmark.util.BenchmarkUtils;
 
@@ -29,7 +30,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class MetricsCollectorConfig {
-  private static final Logger LOG = Logger.getLogger(MetricsCollectorConfig.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MetricsCollectorConfig.class);
 
   public static final String CONF_FILE_FORMAT = "%s/%s_metrics_%d.yaml";
   public static final String DATA_FILE_FORMAT = "%s/%s_metrics_%d.csv";

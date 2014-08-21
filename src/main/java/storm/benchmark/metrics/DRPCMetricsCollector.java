@@ -27,18 +27,17 @@ package storm.benchmark.metrics;
 
 import backtype.storm.Config;
 import backtype.storm.generated.DRPCExecutionException;
-import backtype.storm.generated.StormTopology;
 import backtype.storm.utils.DRPCClient;
-import org.apache.log4j.Logger;
 import org.apache.thrift7.TException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.util.FileUtils;
 
 import java.io.PrintWriter;
-import java.util.HashSet;
 import java.util.List;
 
 public class DRPCMetricsCollector implements IMetricsCollector {
-  private static final Logger LOG = Logger.getLogger(DRPCMetricsCollector.class);
+  private static final Logger LOG = LoggerFactory.getLogger(DRPCMetricsCollector.class);
 
   final MetricsCollectorConfig config;
   final String function;

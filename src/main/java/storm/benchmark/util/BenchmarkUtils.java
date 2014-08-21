@@ -20,13 +20,14 @@ package storm.benchmark.util;
 
 import backtype.storm.Config;
 import backtype.storm.utils.Utils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
 import java.util.Map;
 
 public final class BenchmarkUtils {
-  private static final Logger LOG = Logger.getLogger(BenchmarkUtils.class);
+  private static final Logger LOG = LoggerFactory.getLogger(BenchmarkUtils.class);
 
   private BenchmarkUtils() {
   }

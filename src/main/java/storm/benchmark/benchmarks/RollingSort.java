@@ -29,7 +29,8 @@ import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.benchmarks.common.StormBenchmark;
 import storm.benchmark.lib.spout.RandomMessageSpout;
 import storm.benchmark.util.BenchmarkUtils;
@@ -40,7 +41,7 @@ import java.util.*;
 
 public class RollingSort extends StormBenchmark {
 
-  private static final Logger LOG = Logger.getLogger(RollingSort.class);
+  private static final Logger LOG = LoggerFactory.getLogger(RollingSort.class);
 
   public static final String SPOUT_ID = "spout";
   public static final String SPOUT_NUM = "component.spout_num";

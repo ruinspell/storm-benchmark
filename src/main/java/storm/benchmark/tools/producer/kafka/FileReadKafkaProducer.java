@@ -20,19 +20,20 @@ package storm.benchmark.tools.producer.kafka;
 
 import backtype.storm.Config;
 import backtype.storm.generated.StormTopology;
+import backtype.storm.utils.Utils;
 import storm.benchmark.tools.FileReader;
 
 public class FileReadKafkaProducer extends KafkaProducer {
-
-  public static final String FILE = "/resources/A_Tale_of_Two_City.txt";
+  private static final String FILE_NAME = "file.name";
 
   @Override
   public StormTopology getTopology(Config config) {
-    spout = new FileReadSpout(FILE);
+    String file = (String) Utils.get(config, FILE_NAME, "");
+    setSpout(new FileReadSpout(file));
     return super.getTopology(config);
   }
 
-  static class FileReadSpout extends KafkaProducerSpout {
+  private static class FileReadSpout extends KafkaProducerSpout {
 
     private static final long serialVersionUID = -7503987913879480348L;
     private final FileReader reader;

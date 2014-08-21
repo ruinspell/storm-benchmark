@@ -25,7 +25,8 @@ import backtype.storm.task.IMetricsContext;
 import backtype.storm.tuple.Fields;
 import backtype.storm.utils.Utils;
 import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.metrics.DRPCMetricsCollector;
 import storm.benchmark.metrics.IMetricsCollector;
 import storm.benchmark.benchmarks.common.StormBenchmark;
@@ -60,7 +61,7 @@ import static storm.benchmark.lib.spout.pageview.PageView.Item;
 
 public class DRPC extends StormBenchmark {
 
-  private static final Logger LOG = Logger.getLogger(DRPC.class);
+  private static final Logger LOG = LoggerFactory.getLogger(DRPC.class);
   public static final String FUNCTION = "reach";
   public static final List<String> ARGS =
           Arrays.asList("foo.com", "foo.news.com", "foo.contact.com");

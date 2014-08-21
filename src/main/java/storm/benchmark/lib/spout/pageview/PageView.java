@@ -18,7 +18,8 @@
 
 package storm.benchmark.lib.spout.pageview;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.trident.operation.BaseFunction;
 import storm.trident.operation.TridentCollector;
 import storm.trident.tuple.TridentTuple;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PageView {
-  private static Logger LOG = Logger.getLogger(PageView.class);
+  private static Logger LOG = LoggerFactory.getLogger(PageView.class);
   public final String url;
   public final int status;
   public final int zipCode;

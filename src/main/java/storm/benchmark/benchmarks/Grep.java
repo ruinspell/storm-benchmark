@@ -31,7 +31,8 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 import backtype.storm.utils.Utils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.benchmarks.common.StormBenchmark;
 import storm.benchmark.util.BenchmarkUtils;
 import storm.benchmark.util.KafkaUtils;
@@ -43,7 +44,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Grep extends StormBenchmark {
-  private static final Logger LOG = Logger.getLogger(Grep.class);
+  private static final Logger LOG = LoggerFactory.getLogger(Grep.class);
 
   public static final String SPOUT_ID = "spout";
   public static final String SPOUT_NUM = "component.spout_num";

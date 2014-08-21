@@ -20,7 +20,8 @@ package storm.benchmark.tools;
 
 
 import backtype.storm.utils.MutableObject;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.lib.reducer.Reducer;
 
 import java.io.Serializable;
@@ -75,7 +76,7 @@ public class SlidingWindow<K, V> implements Serializable {
   public static class Slots<K, V> implements Serializable {
 
     private static final long serialVersionUID = 4858185737378394432L;
-    private static final Logger LOG = Logger.getLogger(Slots.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Slots.class);
 
     private final Map<K, MutableObject[]> objToValues = new HashMap<K, MutableObject[]>();
     private final int numSlots;

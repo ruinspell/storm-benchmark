@@ -24,7 +24,8 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.lib.reducer.LongSummer;
 import storm.benchmark.tools.SlidingWindow;
 
@@ -39,7 +40,7 @@ import java.util.Map.Entry;
 public class RollingCountBolt extends RollingBolt {
 
   private static final long serialVersionUID = -903093673694769540L;
-  private static final Logger LOG = Logger.getLogger(RollingCountBolt.class);
+  private static final Logger LOG = LoggerFactory.getLogger(RollingCountBolt.class);
   public static final String FIELDS_OBJ = "obj";
   public static final String FIELDS_CNT = "count";
 
