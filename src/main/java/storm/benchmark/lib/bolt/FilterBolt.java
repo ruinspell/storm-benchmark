@@ -28,12 +28,20 @@ import storm.benchmark.lib.operation.Filter;
 
 public class FilterBolt extends BaseBasicBolt {
   private static final long serialVersionUID = -4957635695743420459L;
-  private final Filter filter;
-  private final Fields fields;
+  private Filter filter;
+  private Fields fields;
+
+  public FilterBolt(Fields fields) {
+    this.fields = fields;
+  }
 
   public FilterBolt(Filter filter, Fields fields) {
     this.filter = filter;
     this.fields = fields;
+  }
+
+  public void setFilter(Filter filter) {
+    this.filter = filter;
   }
 
   @Override
