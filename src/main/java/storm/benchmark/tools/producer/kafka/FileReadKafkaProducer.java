@@ -33,7 +33,7 @@ public class FileReadKafkaProducer extends KafkaProducer {
     return super.getTopology(config);
   }
 
-  private static class FileReadSpout extends KafkaProducerSpout {
+  static class FileReadSpout extends KafkaProducerSpout {
 
     private static final long serialVersionUID = -7503987913879480348L;
     private final FileReader reader;
