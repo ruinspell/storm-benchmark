@@ -1,0 +1,5 @@
+topology.name: "SOL"
+topology.level: 3
+message.size: 100
+component.spout_num: 4
+component.bolt_num: 8

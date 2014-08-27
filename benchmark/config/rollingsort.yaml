@@ -1,0 +1,6 @@
+topology.name: "RollingSort"
+component.spout_num: 4
+component.sort_bolt_num: 8
+emit.frequency: 300  # 5mins
+chunk.size: 2000000  # 2M
+message.size: 10000  # 10KB

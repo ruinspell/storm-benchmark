@@ -1,0 +1,6 @@
+topology.name: "RollingCount"
+component.spout_num: 4
+component.split_bolt_num: 8
+component.count_bolt_num: 8
+window.length: 150  # 150s
+emit.frequency: 30  # 30s

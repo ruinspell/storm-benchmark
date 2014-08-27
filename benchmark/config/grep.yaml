@@ -1,0 +1,17 @@
+# topology configurations
+topology.name: "Grep"
+component.spout_name: 4
+component.find_bolt_name: 8
+component.count_bolt_name: 8
+pattern_string: "string"
+
+# kafka configurations
+topic: "fileread"
+client_id: "grep"
+
+# producer configurations
+producer.class: "storm.benchmark.tools.producer.kafka.FileReadKafkaProducer"
+producer.topology.name: "FileReadKafkaProducer"
+producer.topic: topic
+producer.component.spout_num: 4
+producer.component.bolt_num: 4

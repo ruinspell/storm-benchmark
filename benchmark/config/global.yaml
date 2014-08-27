@@ -1,0 +1,19 @@
+# environment configurations
+storm.cmd.path: "/usr/lib/storm/bin/storm"
+storm.benchmark.jar.path: "/root/storm-benchmark-0.1.0-jar-with-dependencies.jar" 
+storm.benchmark.main_class: "storm.benchmark.tools.Runner"
+# metrics configurations 
+metrics.poll: 60000 # 60 secs
+metrics.time: 300000 # 5 mins
+metrics.path: "/root/benchmark/reports"
+
+# kafka configurations
+broker.list: "intelidh-04:9092"
+zookeeper.servers: "intelidh-04:2181"
+kafka.root.path: "/kafka/kafka-cluster-0"
+
+# topology configurations
+topology.workers: 4
+topology.acker.executors: 4
+topology.max.spout.pending: 200
+

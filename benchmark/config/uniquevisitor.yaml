@@ -1,0 +1,17 @@
+# topology configurations
+topology.name: "UniqueVisitor"
+component.spout_num: 4
+component.view_bolt_num: 8
+component.uniquer_bolt_num: 8
+
+# kafka configurations
+topic: "pageview"
+client_id: "unique_visitor"
+
+# producer configurations
+# producer configurations
+producer.class: "storm.benchmark.tools.producer.kafka.PageViewKafkaProducer"
+producer.topology.name: "PageViewKafkaProducer"
+producer.topic: topic
+producer.component.spout_num: 4
+producer.component.bolt_num: 4

@@ -1,0 +1,16 @@
+# topology configurations
+topology.name: "DataCleanse"
+component.spout_num: 4
+component.view_bolt_num: 8
+component.filter_bolt_num: 8
+
+# kafka configurations
+topic: "data_cleanse"
+client_id: "data_cleanse"
+
+# producer configurations
+producer.class: "storm.benchmark.tools.producer.kafka.FileReadKafkaProducer"
+producer.topology.name: "FileReadKafkaProducer"
+producer.topic: topic
+producer.component.spout_num: 4
+producer.component.bolt_num: 4

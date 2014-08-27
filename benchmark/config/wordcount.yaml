@@ -1,0 +1,4 @@
+topology.name: "WordCount"
+component.spout_num: 4
+component.split_bolt_num: 8
+component.count_bolt_num: 8
