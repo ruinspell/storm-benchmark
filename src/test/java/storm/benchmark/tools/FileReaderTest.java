@@ -29,6 +29,7 @@ public class FileReaderTest {
   @Test
   public void testNextLine() {
     FileReader reader = new FileReader(FILE);
+    reader.open();
     assertThat(reader.nextLine()).isEqualTo("first line");
     assertThat(reader.nextLine()).isEqualTo("second line");
     assertThat(reader.nextLine()).isEqualTo("third line");

@@ -54,8 +54,9 @@ public class FileReadKafkaProducerTest {
     when(reader.nextLine()).thenReturn(message);
 
     spout.open(ANY_CONF, context, collector);
-    spout.nextTuple();
+    verify(reader, times(1)).open();
 
+    spout.nextTuple();
     verify(collector, times(1)).emit(any(Values.class));
   }
 }

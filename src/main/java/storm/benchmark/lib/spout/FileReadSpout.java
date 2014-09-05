@@ -65,7 +65,8 @@ public class FileReadSpout extends BaseRichSpout {
 	@Override
 	public void open(Map conf, TopologyContext context,
 			SpoutOutputCollector collector) {
-		this.collector = collector;
+	  this.collector = collector;
+    reader.open();
 	}
 
 	@Override

@@ -20,10 +20,17 @@ package storm.benchmark.tools.producer.kafka;
 
 import backtype.storm.Config;
 import backtype.storm.generated.StormTopology;
+import backtype.storm.spout.SpoutOutputCollector;
+import backtype.storm.task.TopologyContext;
 import backtype.storm.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import storm.benchmark.tools.FileReader;
 
+import java.util.Map;
+
 public class FileReadKafkaProducer extends KafkaProducer {
+  private static final Logger LOG = LoggerFactory.getLogger(FileReadKafkaProducer.class);
   private static final String FILE_NAME = "file.name";
 
   @Override
@@ -47,8 +54,16 @@ public class FileReadKafkaProducer extends KafkaProducer {
     }
 
     @Override
+    public void open(Map conf, TopologyContext context, SpoutOutputCollector collector) {
+      super.open(conf, context, collector);
+      reader.open();
+    }
+
+    @Override
     public void nextTuple() {
-      nextMessage(reader.nextLine());
+      String message = reader.nextLine();
+      LOG.debug("produce message: " + message);
+      nextMessage(message);
     }
   }
 }
