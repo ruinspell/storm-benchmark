@@ -46,7 +46,7 @@ public class DataClean extends StormBenchmark {
   public final static String FILTER_NUM = "component.filter_bolt_num";
 
   public static final int DEFAULT_SPOUT_NUM = 4;
-  public static final int DEFAULT_FITLER_BOLT_NUM = 4;
+  public static final int DEFAULT_FILTER_BOLT_NUM = 4;
 
   private IRichSpout spout;
 
@@ -54,7 +54,7 @@ public class DataClean extends StormBenchmark {
   @Override
   public StormTopology getTopology(Config config) {
     final int spoutNum = BenchmarkUtils.getInt(config, SPOUT_NUM, DEFAULT_SPOUT_NUM);
-    final int filterBoltNum = BenchmarkUtils.getInt(config, FILTER_NUM, DEFAULT_FITLER_BOLT_NUM);
+    final int filterBoltNum = BenchmarkUtils.getInt(config, FILTER_NUM, DEFAULT_FILTER_BOLT_NUM);
     spout = new KafkaSpout(KafkaUtils.getSpoutConfig(
             config, new SchemeAsMultiScheme(new StringScheme())));
 

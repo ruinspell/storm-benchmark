@@ -35,16 +35,19 @@ public final class KafkaUtils {
   public static final String TOPIC = "topic";
   public static final String CLIENT_ID = "client_id";
 
+  public static final String DEFAULT_BROKER_LIST = "localhost:9092";
+  public static final String DEFAULT_ZOOKEEPER_SERVERS = "localhost:2181";
   public static final String DEFAULT_TOPIC = "storm";
 
   private KafkaUtils() {
   }
 
   public static SpoutConfig getSpoutConfig(Map options, MultiScheme scheme) throws IllegalArgumentException {
-    String zkServers = (String) Utils.get(options, ZOOKEEPER_SERVERS, "localhost:2181");
+    String zkServers = (String) Utils.get(options, ZOOKEEPER_SERVERS, DEFAULT_ZOOKEEPER_SERVERS);
     String kafkaRoot = (String) Utils.get(options, KAFKA_ROOT_PATH, "/kafka");
     String connectString = zkServers + kafkaRoot;
 
+    // broker path will be kafkaRoot/brokers
     BrokerHosts hosts = new ZkHosts(connectString);
     String topic = (String) Utils.get(options, TOPIC, DEFAULT_TOPIC);
     String zkRoot = kafkaRoot + "/" + "storm-consumer-states";

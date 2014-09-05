@@ -46,9 +46,9 @@ import java.util.Random;
 public abstract class KafkaProducer  implements IProducer {
 
   public static final String SPOUT_ID = "spout";
-  public static final String SPOUT_NUM = "producer.spout_num";
+  public static final String SPOUT_NUM = "component.spout_num";
   public static final String BOLT_ID = "bolt";
-  public static final String BOLT_NUM = "producer.bolt_num";
+  public static final String BOLT_NUM = "component.bolt_num";
   public static final String BROKER_LIST = "broker.list";
   public static final String TOPIC = "topic";
 
@@ -82,7 +82,7 @@ public abstract class KafkaProducer  implements IProducer {
   private Map getKafkaConfig(Map options) {
     Map kafkaConfig = new HashMap();
     Map brokerConfig = new HashMap();
-    String brokers = (String) Utils.get(options, BROKER_LIST, "localhost:9092");
+    String brokers = (String) Utils.get(options, BROKER_LIST, KafkaUtils.DEFAULT_BROKER_LIST);
     String topic = (String) Utils.get(options, TOPIC, KafkaUtils.DEFAULT_TOPIC);
     brokerConfig.put("metadata.broker.list", brokers);
     brokerConfig.put("serializer.class", "kafka.serializer.StringEncoder");

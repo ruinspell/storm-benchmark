@@ -40,8 +40,16 @@ public class FilterBolt extends BaseBasicBolt {
     this.fields = fields;
   }
 
+  /**
+   * subclass should set filter at prepare stage if the filter
+   * carries a lot of states
+   */
   public void setFilter(Filter filter) {
     this.filter = filter;
+  }
+
+  public Filter getFilter() {
+    return filter;
   }
 
   @Override

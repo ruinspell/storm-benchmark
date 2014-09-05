@@ -20,6 +20,7 @@ package storm.benchmark.benchmarks.stocktweets;
 
 import backtype.storm.Config;
 import backtype.storm.generated.StormTopology;
+import backtype.storm.spout.SchemeAsMultiScheme;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.IRichSpout;
 import backtype.storm.topology.TopologyBuilder;
@@ -35,6 +36,9 @@ import storm.benchmark.lib.operation.Filter;
 import storm.benchmark.lib.spout.FileReadSpout;
 import storm.benchmark.tools.FileReader;
 import storm.benchmark.util.BenchmarkUtils;
+import storm.benchmark.util.KafkaUtils;
+import storm.kafka.KafkaSpout;
+import storm.kafka.StringScheme;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -46,10 +50,9 @@ public class DataCleanse extends StormBenchmark {
   public final static String FILTER_ID = "filter";
   public final static String FILTER_NUM = "component.filter_bolt_num";
 
-  public static final int DEFAULT_SPOUT_NUM = 1;
-  public static final int DEFAULT_FILTER_BOLT_NUM = 1;
+  public static final int DEFAULT_SPOUT_NUM = 4;
+  public static final int DEFAULT_FILTER_BOLT_NUM = 4;
 
-  private static final String STOCK_TWEETS = "/resources/stock_symbol_keywords.tsv";
   private static final Logger LOG = LoggerFactory.getLogger(DataCleanse.class);
   private IRichSpout spout;
 
@@ -58,7 +61,8 @@ public class DataCleanse extends StormBenchmark {
   public StormTopology getTopology(Config config) {
     final int spoutNum = BenchmarkUtils.getInt(config, SPOUT_NUM, DEFAULT_SPOUT_NUM);
     final int filterBoltNum = BenchmarkUtils.getInt(config, FILTER_NUM, DEFAULT_FILTER_BOLT_NUM);
-    spout = new FileReadSpout(false, STOCK_TWEETS);
+    spout = new KafkaSpout(KafkaUtils.getSpoutConfig(
+            config, new SchemeAsMultiScheme(new StringScheme())));
 
     TopologyBuilder builder = new TopologyBuilder();
     builder.setSpout(SPOUT_ID, spout, spoutNum);
@@ -70,7 +74,8 @@ public class DataCleanse extends StormBenchmark {
   static class TickerSymbolFilterBolt extends FilterBolt {
     private static final long serialVersionUID = -5166209349181923660L;
 
-    private static final String TICKER_SYMBOLS = "/resources/ticker_symbol.tsv";
+    private static final String DEFAULT_TICKER_SYMBOLS = "/resources/ticker_symbol.tsv";
+    private Map<String, String> tickerBase;
 
     public TickerSymbolFilterBolt(Fields fields) {
       super(fields);
@@ -78,9 +83,25 @@ public class DataCleanse extends StormBenchmark {
 
     @Override
     public void prepare(Map stormConf, TopologyContext context) {
+      super.prepare(stormConf, context);
       // map from ticker symbol to company e.g. AAPL -> Apple
+      TickerSymbolFilter filter = new TickerSymbolFilter();
+      filter.setTickerBase(loadTickerBase());
+      setFilter(filter);
+    }
+
+    public void setTickerBase(Map<String, String> tickerBase) {
+      this.tickerBase = tickerBase;
+    }
+
+    private Map<String, String> loadTickerBase() {
+      if (tickerBase != null) {
+        return tickerBase;
+      }
+      // if not set, read from default ticker_symbol files.
       Map<String, String> tickerBase = new HashMap<String, String>();
-      FileReader reader = new FileReader(TICKER_SYMBOLS);
+      FileReader reader = new FileReader(DEFAULT_TICKER_SYMBOLS);
+      reader.open();
       String line;
       while((line = reader.nextLine()) != null) {
         String[] words = line.split("\t");
@@ -88,11 +109,10 @@ public class DataCleanse extends StormBenchmark {
           LOG.warn("invalid ticker symbols: " + words);
           continue;
         }
+        LOG.debug("ticker: " + words[0] + ", company: " + words[1]);
         tickerBase.put(words[0].toLowerCase(), words[1]);
       }
-      TickerSymbolFilter filter = new TickerSymbolFilter();
-      filter.setTickerBase(tickerBase);
-      setFilter(filter);
+      return tickerBase;
     }
   }
 
@@ -105,25 +125,29 @@ public class DataCleanse extends StormBenchmark {
     }
 
     /**
-     * this filter replaces valid ticker symbols with company names and throws out invalid ones
-     * ticker symbol starts with $ in a stock tweet
+     * this filter replaces valid ticker symbols (starting with $) with company names
+     * and throw out tweets wth invalid tickers or no keywords;
      *
-     * @param tuple a tab separated string including timestamp, ticker symbol, tweet id and keywords
-     * @return a tab separated string including timestamp, company name, tweet id and keywords
+     * @param tuple a tab separated tweet including timestamp, ticker symbol, tweet id and keywords
+     * @return a tab separated tweet including timestamp, company name, tweet id and keywords
      */
     @Override
     public Values filter(Tuple tuple) {
       String tweet = tuple.getString(0);
       String[] words = tweet.split("\t");
       if (words.length == 4) {
-        String second = words[1];
-        if (second.startsWith("$")) {
+        String second = words[1]; // ticker symbol
+        String fourth = words[3]; // keywords
+        if (second.startsWith("$") && !fourth.isEmpty()) {
           String ticker = second.substring(1).toLowerCase().replaceAll("[.]", "");
           String company = tickerBase.get(ticker);
           if (company != null) {
             words[1] = company;
             Joiner joiner = Joiner.on("\t").skipNulls();
-            return new Values(joiner.join(words));
+            String filtered = joiner.join(words);
+            System.out.println("filtered tweet: " + filtered);
+            LOG.debug("filtered tweet: " + filtered);
+            return new Values(filtered);
           }
         }
       }

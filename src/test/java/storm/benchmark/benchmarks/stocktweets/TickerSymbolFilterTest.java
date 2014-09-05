@@ -22,8 +22,10 @@ import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import storm.benchmark.util.MockTupleHelpers;
 
 import java.util.Map;
 
@@ -33,17 +35,26 @@ import static org.mockito.Mockito.when;
 import static storm.benchmark.benchmarks.stocktweets.DataCleanse.TickerSymbolFilter;
 
 public class TickerSymbolFilterTest {
+  private TickerSymbolFilter filter;
+  private Tuple tuple = MockTupleHelpers.mockAnyTuple();
+
+
   Map<String, String> tickerBase = ImmutableMap.of(
     "aapl", "Apple",
     "gool", "Google"
   );
 
-  @Test(dataProvider = "getStockTweets")
-  public void testFilter(String original, String filtered) {
-    TickerSymbolFilter filter = new TickerSymbolFilter();
+  @BeforeMethod
+  public void setUp() {
+    filter = new TickerSymbolFilter();
     filter.setTickerBase(tickerBase);
-    Tuple tuple = mock(Tuple.class);
+    tuple = mock(Tuple.class);
+  }
 
+
+
+  @Test(dataProvider = "getValidStockTweets")
+  public void validTickerSymbolShouldBeReplacedWithCompany(String original, String filtered) {
     when(tuple.getString(0)).thenReturn(original);
 
     Values values = filter.filter(tuple);
@@ -52,7 +63,7 @@ public class TickerSymbolFilterTest {
   }
 
   @DataProvider
-  public Object[][] getStockTweets() {
+  public Object[][] getValidStockTweets() {
     return new Object[][] {
             { "2010\t$AAPL\t01\tup",  "2010\tApple\t01\tup"},
             { "2010\t$AAPL...\t02\tup", "2010\tApple\t02\tup"},
@@ -60,4 +71,23 @@ public class TickerSymbolFilterTest {
             { "2012\t$GOOL\t04\tup", "2012\tGoogle\t04\tup"}
     };
   }
+
+  @Test(dataProvider = "getInvalidStockTweets")
+  public void invalidTweetsShouldBeFilteredOut(String tweet) {
+    when(tuple.getString(0)).thenReturn(tweet);
+
+    Values values = filter.filter(tuple);
+    assertThat(values).isEmpty();
+  }
+
+  @DataProvider
+  public Object[][] getInvalidStockTweets() {
+    return new Object[][] {
+            { "2010\t$AAPL\t01\t"},
+            { "2010\t$...\t02\tup"},
+            { "2010\t$A\t03\tup"},
+            { "2012"}
+    };
+  }
+
 }
