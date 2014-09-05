@@ -238,8 +238,8 @@ public class BasicMetricsCollector implements IMetricsCollector {
         metrics.put(SPOUT_AVG_COMPLETE_LATENCY, "0.0");
         metrics.put(SPOUT_MAX_COMPLETE_LATENCY, "0.0");
       }
-      for (String id : comLat.keySet()) {
-        List<Double> latList = comLat.get(id);
+      for (Map.Entry<String, List<Double>> entry : comLat.entrySet()) {
+        List<Double> latList = entry.getValue();
         double avg = null == latList ? 0.0 : BenchmarkUtils.avg(latList);
         double max = null == latList ? 0.0 : BenchmarkUtils.max(latList);
         metrics.put(SPOUT_AVG_COMPLETE_LATENCY,

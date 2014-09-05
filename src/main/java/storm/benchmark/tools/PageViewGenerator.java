@@ -41,6 +41,8 @@ public class PageViewGenerator implements Serializable {
   public static final Distribution<Integer> USER_ZIP_CODE = new Distribution<Integer>(new Pair(94709, 0.5), new Pair(94117, 0.5));
   public static final Distribution<Integer> USER_ID = Distribution.intEvenDistribution(0, 100);
 
+  private static final Random random = new Random();
+
   public String getNextClickEvent() {
     String page = pickFromDistribution(PAGES);
     int status = pickFromDistribution(HTTP_STATUS);
@@ -68,12 +70,11 @@ public class PageViewGenerator implements Serializable {
   }
 
   private <T> T pickFromDistribution(Distribution<T> dist) {
-
-    final double rand = new Random().nextDouble();
+    final double r = random.nextDouble();
     double total = 0.0;
     for (T d : dist.getKeySet()) {
       total = total + dist.getProbability(d);
-      if (total > rand) {
+      if (total > r) {
         return d;
       }
     }

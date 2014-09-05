@@ -19,6 +19,7 @@
 package storm.benchmark.util;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public final class FileUtils {
   public static List<String> readLines(InputStream input) {
     List<String> lines = new ArrayList<String>();
     try {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+      BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
       try {
         String line;
         while((line = reader.readLine()) != null) {
@@ -52,10 +53,13 @@ public final class FileUtils {
       final File dir = new File(parent);
       if (dir.exists() || dir.mkdirs()) {
         final File file = new File(name);
-        file.createNewFile();
-        final PrintWriter writer = new PrintWriter(new OutputStreamWriter(
-        new FileOutputStream(file, true)));
-        return writer;
+        if (file.createNewFile()) {
+          final PrintWriter writer = new PrintWriter(new OutputStreamWriter(
+                  new FileOutputStream(file, true), "UTF-8"));
+          return writer;
+        } else {
+          throw new RuntimeException("file " + name + "already exists");
+        }
       } else {
         throw new RuntimeException("fail to create parent directory " + parent);
       }

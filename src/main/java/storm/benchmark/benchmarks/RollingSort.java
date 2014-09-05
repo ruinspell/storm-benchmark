@@ -149,7 +149,8 @@ public class RollingSort extends StormBenchmark {
 
     @Override
     public int compareTo(Object other) {
-      if (other == null) return 1;
+      if (this == other) return 0;
+
       Comparable oc = ((MutableComparable) other).get();
       if (null == c && null == oc) {
         return 0;
@@ -160,6 +161,23 @@ public class RollingSort extends StormBenchmark {
       } else {
         return c.compareTo(oc);
       }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (!(o instanceof MutableComparable)) return false;
+
+      MutableComparable that = (MutableComparable) o;
+
+      if (!c.equals(that.get())) return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 31 + c.hashCode();
     }
   }
 }

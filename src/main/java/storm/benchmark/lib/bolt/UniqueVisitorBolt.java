@@ -54,8 +54,8 @@ public class UniqueVisitorBolt extends RollingBolt {
   public void emitCurrentWindow(BasicOutputCollector collector) {
     dumpCache();
     Map<String, Set<Integer>> urlToVisitors = window.reduceThenAdvanceWindow();
-    for (String url : urlToVisitors.keySet()) {
-      collector.emit(new Values(url, urlToVisitors.get(url).size()));
+    for (Map.Entry<String, Set<Integer>> entry : urlToVisitors.entrySet()) {
+      collector.emit(new Values(entry.getKey(), entry.getValue().size()));
     }
   }
 
