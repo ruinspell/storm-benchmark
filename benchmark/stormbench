@@ -60,7 +60,7 @@ def datacleanse(global_config, benchmark_config):
 
 def exec_producer_benchmark(benchmark, global_config, benchmark_config):
     storm_cmd, jar_file, main_class, topology_name, all_args = read_config(global_config, benchmark_config)
-    producer_class, producer_name, producer_args = read_producer_config(benchmark_config)
+    producer_class, producer_name, producer_args = read_producer_config(global_config, benchmark_config)
     run_topology(storm_cmd, jar_file, main_class, producer_class, producer_args)
     run_topology(storm_cmd, jar_file, main_class, benchmark, all_args)
     kill_topology(storm_cmd, topology_name)
@@ -96,9 +96,7 @@ def read_config(global_config, benchmark_config):
     all_config = {}
     all_args = []
 
-    for k, v in global_config.iteritems():
-        if k != "storm.cmd.path" and k != "storm.benchmark.jar.path" and k != "storm.benchmark.main_class":
-            all_config[k] = v
+    all_config.extend(read_global_config(global_config))
     # benchmark_config could override global_config
     for k, v in benchmark_config.iteritems():
         all_config[k] = v
@@ -109,15 +107,28 @@ def read_config(global_config, benchmark_config):
 
     return storm_cmd, jar_file, main_class, topology_name, all_args
 
-def read_producer_config(benchmark_config):
+def read_producer_config(global_config, benchmark_config):
     producer_class = benchmark_config["producer.class"]
     producer_name = benchmark_config["producer.name"]
+    producer_config = {}
     producer_args = []
-    for k, v in benchmark_config.iteritems:
+
+    producer_config.extend(read_global_config(global_config))
+    for k, v in benchmark_config.iteritems():
         if k.startswith("producer.") and k != "producer.class":
                 # strip off "producer." prefix
-                producer_args.append("-c %s=%s" % (k[9:], v))
+                producer_config[k[9:]] = v
+
+    for k, v in producer_config.iteritems():
+        producer_args.append("-c %s=%s" % (k, v))
     return producer_class, producer_name, producer_args
+
+def read_global_config(global_config):
+    config = {}
+    for k, v in global_config.iteritems():
+        if k != "storm.cmd.path" and k != "storm.benchmark.jar.path" and k != "storm.benchmark.main_class":
+            config[k] = v
+    return config
 
 def load_config(file):
     with open(file, "r") as stream:
