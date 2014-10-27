@@ -52,11 +52,11 @@ public class PageViewBoltTest {
     verify(declarer, times(1)).declare(any(Fields.class));
   }
 
-  @Test(dataProvider =  "getAnyFields")
+  @Test(dataProvider = "getAnyFields")
   public void getValueShouldReturnRightField(Item field1, Item field2) {
     PageViewBolt bolt = new PageViewBolt(field1, field2);
 
-    PageView  view1 = new PageView("http://view1", 200, 100000, 100);
+    PageView view1 = new PageView("http://view1", 200, 100000, 100);
     assertEquals(view1.toString(), view1.getValue(Item.ALL));
     assertEquals("http://view1", view1.getValue(Item.URL));
     assertEquals(200, view1.getValue(Item.STATUS));
@@ -64,7 +64,7 @@ public class PageViewBoltTest {
     assertEquals(100, view1.getValue(Item.USER));
     assertEquals(1, view1.getValue(Item.ONE));
 
-    PageView  view2 = new PageView("http://view2", 400, 200000, 200);
+    PageView view2 = new PageView("http://view2", 400, 200000, 200);
     assertEquals(view2.toString(), view2.getValue(Item.ALL));
     assertEquals("http://view2", view2.getValue(Item.URL));
     assertEquals(400, view2.getValue(Item.STATUS));

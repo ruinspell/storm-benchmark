@@ -25,8 +25,9 @@ import static org.junit.Assert.assertEquals;
 
 public class WordSplitTest {
 
-  final String[] ANY_WORDS = { "foo", "bar" };
+  final String[] ANY_WORDS = {"foo", "bar"};
   final String sep = System.getProperty("line.separator");
+
   @Test(dataProvider = "getSentenceWithWhiteSpace")
   public void sentenceShouldBeSplittedWithWhitespace(String sentence) {
     String[] rets = WordSplit.splitSentence(sentence);
@@ -38,7 +39,7 @@ public class WordSplitTest {
 
   @DataProvider
   private Object[][] getSentenceWithWhiteSpace() {
-    return new String[][] {
+    return new String[][]{
             {ANY_WORDS[0] + "  " + ANY_WORDS[1]},
             {ANY_WORDS[0] + sep + ANY_WORDS[1]},
             {ANY_WORDS[0] + " " + sep + " " + ANY_WORDS[1]}

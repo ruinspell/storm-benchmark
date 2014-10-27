@@ -43,7 +43,7 @@ public class FileReadKafkaProducerTest {
     assertThat(producer.getSpout()).isInstanceOf(FileReadSpout.class);
   }
 
- @Test
+  @Test
   public void nextTupleShouldEmitNextLineOfFile() throws Exception {
     FileReader reader = mock(FileReader.class);
     String message = "line";

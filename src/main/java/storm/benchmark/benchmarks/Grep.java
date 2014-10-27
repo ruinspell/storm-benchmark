@@ -44,8 +44,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Grep extends StormBenchmark {
-  private static final Logger LOG = LoggerFactory.getLogger(Grep.class);
-
   public static final String SPOUT_ID = "spout";
   public static final String SPOUT_NUM = "component.spout_num";
   public static final String FM_ID = "find";
@@ -53,12 +51,11 @@ public class Grep extends StormBenchmark {
   public static final String CM_ID = "count";
   public static final String CM_NUM = "component.count_bolt_num";
   public static final String PATTERN_STRING = "pattern_string";
-
   public static final String DEFAULT_PATTERN_STR = "string";
   public static final int DEFAULT_SPOUT_NUM = 5;
   public static final int DEFAULT_MAT_BOLT_NUM = 8;
   public static final int DEFAULT_CNT_BOLT_NUM = 4;
-
+  private static final Logger LOG = LoggerFactory.getLogger(Grep.class);
   private IRichSpout spout;
 
   @Override
@@ -83,9 +80,9 @@ public class Grep extends StormBenchmark {
 
   public static class FindMatchingSentence extends BaseBasicBolt {
     public static final String FIELDS = "word";
+    private final String ptnString;
     private Pattern pattern;
     private Matcher matcher;
-    private final String ptnString;
 
     public FindMatchingSentence(String ptnString) {
       this.ptnString = ptnString;

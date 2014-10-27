@@ -71,7 +71,7 @@ public class TridentWordCount extends StormBenchmark {
     final int splitNum = BenchmarkUtils.getInt(config, SPLIT_NUM, DEFAULT_SPLIT_BOLT_NUM);
     final int countNum = BenchmarkUtils.getInt(config, COUNT_NUM, DEFAULT_COUNT_BOLT_NUM);
 
-    spout  = new TransactionalTridentKafkaSpout(
+    spout = new TransactionalTridentKafkaSpout(
             KafkaUtils.getTridentKafkaConfig(config, new SchemeAsMultiScheme(new StringScheme())));
 
     TridentTopology trident = new TridentTopology();
@@ -90,8 +90,6 @@ public class TridentWordCount extends StormBenchmark {
 
     return trident.build();
   }
-
-
 
 
 }

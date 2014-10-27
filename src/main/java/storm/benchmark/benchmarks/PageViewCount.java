@@ -61,7 +61,7 @@ public class PageViewCount extends StormBenchmark {
     TopologyBuilder builder = new TopologyBuilder();
     builder.setSpout(SPOUT_ID, spout, spoutNum);
     builder.setBolt(VIEW_ID, new PageViewBolt(Item.URL, Item.ONE), viewBoltNum)
-           .localOrShuffleGrouping(SPOUT_ID);
+            .localOrShuffleGrouping(SPOUT_ID);
     builder.setBolt(COUNT_ID, new WordCount.Count(), cntBoltNum)
             .fieldsGrouping(VIEW_ID, new Fields(Item.URL.toString()));
     return builder.createTopology();

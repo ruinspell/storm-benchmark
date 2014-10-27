@@ -43,7 +43,7 @@ import java.util.Random;
  * KafkaProducer is itself a Storm benchmarks which consists of a KafkaProducerSpout and a KafkaBolt
  * Subclass could provide its own Spout (e.g. read from file, generate message randomly)
  */
-public abstract class KafkaProducer  implements IProducer {
+public abstract class KafkaProducer implements IProducer {
 
   public static final String SPOUT_ID = "spout";
   public static final String SPOUT_NUM = "component.spout_num";
@@ -54,15 +54,14 @@ public abstract class KafkaProducer  implements IProducer {
 
   public static final int DEFAULT_SPOUT_NUM = 4;
   public static final int DEFAULT_BOLT_NUM = 4;
-
-  private IRichSpout spout;
   private final IRichBolt bolt = new KafkaBolt<String, String>();
+  private IRichSpout spout;
 
   @Override
   public StormTopology getTopology(Config config) {
     config.putAll(getKafkaConfig(config));
 
-    final int spoutNum = BenchmarkUtils.getInt(config , SPOUT_NUM, DEFAULT_SPOUT_NUM);
+    final int spoutNum = BenchmarkUtils.getInt(config, SPOUT_NUM, DEFAULT_SPOUT_NUM);
     final int boltNum = BenchmarkUtils.getInt(config, BOLT_NUM, DEFAULT_BOLT_NUM);
 
     TopologyBuilder builder = new TopologyBuilder();
@@ -71,12 +70,12 @@ public abstract class KafkaProducer  implements IProducer {
     return builder.createTopology();
   }
 
-  protected void setSpout(IRichSpout spout) {
-    this.spout = spout;
-  }
-
   public IRichSpout getSpout() {
     return spout;
+  }
+
+  protected void setSpout(IRichSpout spout) {
+    this.spout = spout;
   }
 
   private Map getKafkaConfig(Map options) {

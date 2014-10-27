@@ -32,8 +32,8 @@ import static org.mockito.Mockito.*;
 public class ExpandTest {
 
 
-  @Test (dataProvider = "getIterable")
-  public void testExpand(Iterable iterable, int size)  {
+  @Test(dataProvider = "getIterable")
+  public void testExpand(Iterable iterable, int size) {
     final TridentTuple tuple = mock(TridentTuple.class);
     final TridentCollector collector = mock(TridentCollector.class);
     when(tuple.getValue(0)).thenReturn(iterable);
@@ -46,9 +46,9 @@ public class ExpandTest {
 
   @DataProvider
   private Object[][] getIterable() {
-    return new Object[][] {
-            { Lists.newArrayList(1, 2, 3), 3},
-            { Sets.newHashSet(1, 2, 3), 3}
+    return new Object[][]{
+            {Lists.newArrayList(1, 2, 3), 3},
+            {Sets.newHashSet(1, 2, 3), 3}
     };
   }
 }

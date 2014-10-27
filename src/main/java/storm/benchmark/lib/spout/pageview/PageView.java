@@ -41,11 +41,6 @@ public class PageView {
     this.userID = userID;
   }
 
-  @Override
-  public String toString() {
-    return String.format("%s\t%d\t%d\t%d", url, status, zipCode, userID);
-  }
-
   public static PageView fromString(String pv) {
     LOG.debug("get string '" + pv + "'");
     String[] parts = pv.split("\t");
@@ -59,6 +54,11 @@ public class PageView {
             Integer.parseInt(parts[1]),
             Integer.parseInt(parts[2]),
             Integer.parseInt(parts[3]));
+  }
+
+  @Override
+  public String toString() {
+    return String.format("%s\t%d\t%d\t%d", url, status, zipCode, userID);
   }
 
   public Object getValue(Item field) {

@@ -44,17 +44,17 @@ public class SlotsTest {
 
   @DataProvider
   public Object[][] illegalNumSlots() {
-    return new Object[][] { {Integer.MIN_VALUE}, {-10}, {-1}, {0} };
+    return new Object[][]{{Integer.MIN_VALUE}, {-10}, {-1}, {0}};
   }
 
-  @Test (dataProvider = "legalNumSlots")
+  @Test(dataProvider = "legalNumSlots")
   public void oneOrMoreSlotsShouldBeValid(int numSlots) {
     new Slots<Object, Object>(ANY_REDUCER, numSlots);
   }
 
   @DataProvider
   public Object[][] legalNumSlots() {
-    return new Object[][] { {1}, {10}, {100}, {Integer.MAX_VALUE} };
+    return new Object[][]{{1}, {10}, {100}, {Integer.MAX_VALUE}};
   }
 
   @Test
@@ -63,7 +63,7 @@ public class SlotsTest {
     assertThat(slots.contains(ANY_OBJECT)).isFalse();
   }
 
-  @Test (expectedExceptions = IllegalArgumentException.class, dataProvider = "illegalSlot")
+  @Test(expectedExceptions = IllegalArgumentException.class, dataProvider = "illegalSlot")
   public void addToIllegalSlotShouldThrowIAE(int numSlots, int slot) {
     Slots slots = new Slots<Object, Object>(ANY_REDUCER, numSlots);
     slots.add(ANY_OBJECT, ANY_VALUE, slot);
@@ -71,13 +71,13 @@ public class SlotsTest {
 
   @DataProvider
   public Object[][] illegalSlot() {
-    return new Object[][] {
-            { 2, 2 }, { 2, 4 }, { 2, -1}
+    return new Object[][]{
+            {2, 2}, {2, 4}, {2, -1}
     };
   }
 
 
-  @Test (dataProvider = "legalSlot")
+  @Test(dataProvider = "legalSlot")
   public void addToLegalSlotShouldSucceed(int numSlots, int slot) {
     Slots slots = new Slots<Object, Object>(ANY_REDUCER, numSlots);
     slots.add(ANY_OBJECT, ANY_VALUE, slot);
@@ -89,8 +89,8 @@ public class SlotsTest {
 
   @DataProvider
   public Object[][] legalSlot() {
-    return new Object[][] {
-            { 3, 0 }, { 3, 2 }, { 300, 201 }
+    return new Object[][]{
+            {3, 0}, {3, 2}, {300, 201}
     };
   }
 
@@ -105,13 +105,13 @@ public class SlotsTest {
     assertThat(slots.contains(ANY_OBJECT)).isFalse();
   }
 
-  @Test (expectedExceptions = IllegalArgumentException.class, dataProvider = "illegalSlot")
+  @Test(expectedExceptions = IllegalArgumentException.class, dataProvider = "illegalSlot")
   public void wipeIllegalSlotShouldThrowIAE(int numSlots, int slot) {
     Slots slots = new Slots<Object, Object>(ANY_REDUCER, numSlots);
     slots.wipeSlot(slot);
   }
 
-  @Test (dataProvider = "legalSlot")
+  @Test(dataProvider = "legalSlot")
   public void wipeLegalSlotShouldWork(int numSlots, int slot) {
     Slots slots = new Slots<Object, Object>(ANY_REDUCER, numSlots);
 
@@ -126,4 +126,4 @@ public class SlotsTest {
     assertThat(m).isNotNull();
     assertThat(ANY_REDUCER.isZero(m.getObject())).isTrue();
   }
- }
+}

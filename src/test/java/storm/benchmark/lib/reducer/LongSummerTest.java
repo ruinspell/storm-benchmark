@@ -35,10 +35,10 @@ public class LongSummerTest {
 
   @DataProvider
   private Object[][] getLong() {
-    return new Object[][] {
-            { 1L, 1L, 2L },
-            { 3L, 5L, 8L },
-            { 13L, 21L, 34L }
+    return new Object[][]{
+            {1L, 1L, 2L},
+            {3L, 5L, 8L},
+            {13L, 21L, 34L}
     };
   }
 

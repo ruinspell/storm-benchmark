@@ -34,7 +34,7 @@ public class Expand extends BaseFunction {
     Iterable iterable = (Iterable) tuple.getValue(0);
     Iterator iterator = iterable.iterator();
     while (iterator.hasNext()) {
-     collector.emit(new Values(iterator.next()));
+      collector.emit(new Values(iterator.next()));
     }
   }
 }

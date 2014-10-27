@@ -56,7 +56,7 @@ public final class KafkaUtils {
     SpoutConfig config = new SpoutConfig(hosts, topic, zkRoot, appId);
     config.zkServers = new ArrayList<String>();
 
-    String [] servers = zkServers.split(",");
+    String[] servers = zkServers.split(",");
 
     for (int i = 0; i < servers.length; i++) {
       String[] serverAndPort = servers[0].split(":");
@@ -75,7 +75,7 @@ public final class KafkaUtils {
   }
 
   public static TridentKafkaConfig getTridentKafkaConfig(Map options, MultiScheme scheme) {
-    String zkServers = (String) Utils.get(options, ZOOKEEPER_SERVERS, "localhost:2181") ;
+    String zkServers = (String) Utils.get(options, ZOOKEEPER_SERVERS, "localhost:2181");
     String kafkaRoot = (String) Utils.get(options, KAFKA_ROOT_PATH, "/kafka");
     String connectString = zkServers + kafkaRoot;
 

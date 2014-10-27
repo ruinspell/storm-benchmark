@@ -30,14 +30,16 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 
-/** forked from SlidingWindowCounterTest in storm-starter */
+/**
+ * forked from SlidingWindowCounterTest in storm-starter
+ */
 
 public class SlidingWindowTest {
   private static final Object ANY_OBJECT = "ANY_OBJECT";
 
   @DataProvider
   public Object[][] illegalWindowLengths() {
-    return new Object[][]{ { -10 }, { -3 }, { -2 }, { -1 }, { 0 }, { 1 } };
+    return new Object[][]{{-10}, {-3}, {-2}, {-1}, {0}, {1}};
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class, dataProvider = "illegalWindowLengths")
@@ -48,7 +50,7 @@ public class SlidingWindowTest {
 
   @DataProvider
   public Object[][] legalWindowLengths() {
-    return new Object[][]{ { 2 }, { 3 }, { 20 } };
+    return new Object[][]{{2}, {3}, {20}};
   }
 
   @Test(dataProvider = "legalWindowLengths")
@@ -60,16 +62,14 @@ public class SlidingWindowTest {
   @DataProvider
   public Object[][] simulatedCounterIterations() {
     return new Object[][]{
-            { 2, new int[]{ 3, 2, 0, 0, 1, 0, 0, 0 }, new long[]{ 3, 5, 2, 0, 1, 1, 0, 0 } },
-            { 3, new int[]{ 3, 2, 0, 0, 1, 0, 0, 0 }, new long[]{ 3, 5, 5, 2, 1, 1, 1, 0 } },
-            { 4, new int[]{ 3, 2, 0, 0, 1, 0, 0, 0 }, new long[]{ 3, 5, 5, 5, 3, 1, 1, 1 } },
-            { 5, new int[]{ 3, 2, 0, 0, 1, 0, 0, 0 }, new long[]{ 3, 5, 5, 5, 6, 3, 1, 1 } },
-            { 5, new int[]{ 3, 11, 5, 13, 7, 17, 0, 3, 50, 600, 7000 },
-                    new long[]{ 3, 14, 19, 32, 39, 53, 42, 40, 77, 670, 7653 } }
+            {2, new int[]{3, 2, 0, 0, 1, 0, 0, 0}, new long[]{3, 5, 2, 0, 1, 1, 0, 0}},
+            {3, new int[]{3, 2, 0, 0, 1, 0, 0, 0}, new long[]{3, 5, 5, 2, 1, 1, 1, 0}},
+            {4, new int[]{3, 2, 0, 0, 1, 0, 0, 0}, new long[]{3, 5, 5, 5, 3, 1, 1, 1}},
+            {5, new int[]{3, 2, 0, 0, 1, 0, 0, 0}, new long[]{3, 5, 5, 5, 6, 3, 1, 1}},
+            {5, new int[]{3, 11, 5, 13, 7, 17, 0, 3, 50, 600, 7000},
+                    new long[]{3, 14, 19, 32, 39, 53, 42, 40, 77, 670, 7653}}
     };
   }
-
-
 
 
   @Test(dataProvider = "simulatedCounterIterations")

@@ -31,13 +31,11 @@ import storm.benchmark.tools.FileReader;
 import java.util.Map;
 
 public class FileReadSpout extends BaseRichSpout {
-  private static final Logger LOG = LoggerFactory.getLogger(FileReadSpout.class);
-  private static final long serialVersionUID = -2582705611472467172L;
-
   public static final String DEFAULT_FILE = "/resources/A_Tale_of_Two_City.txt";
   public static final boolean DEFAULT_ACK = false;
   public static final String FIELDS = "sentence";
-
+  private static final Logger LOG = LoggerFactory.getLogger(FileReadSpout.class);
+  private static final long serialVersionUID = -2582705611472467172L;
   public final boolean ackEnabled;
   public final FileReader reader;
   private SpoutOutputCollector collector;
@@ -62,25 +60,25 @@ public class FileReadSpout extends BaseRichSpout {
     this.reader = reader;
   }
 
-	@Override
-	public void open(Map conf, TopologyContext context,
-			SpoutOutputCollector collector) {
-	  this.collector = collector;
+  @Override
+  public void open(Map conf, TopologyContext context,
+                   SpoutOutputCollector collector) {
+    this.collector = collector;
     reader.open();
-	}
+  }
 
-	@Override
-	public void nextTuple() {
+  @Override
+  public void nextTuple() {
     if (ackEnabled) {
       collector.emit(new Values(reader.nextLine()), count);
       count++;
     } else {
       collector.emit(new Values(reader.nextLine()));
     }
-	}
+  }
 
-	@Override
-	public void declareOutputFields(OutputFieldsDeclarer declarer) {
-		declarer.declare(new Fields(FIELDS));
-	}
+  @Override
+  public void declareOutputFields(OutputFieldsDeclarer declarer) {
+    declarer.declare(new Fields(FIELDS));
+  }
 }

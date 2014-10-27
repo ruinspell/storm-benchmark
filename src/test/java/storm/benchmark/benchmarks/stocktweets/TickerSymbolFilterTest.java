@@ -35,14 +35,12 @@ import static org.mockito.Mockito.when;
 import static storm.benchmark.benchmarks.stocktweets.DataCleanse.TickerSymbolFilter;
 
 public class TickerSymbolFilterTest {
+  Map<String, String> tickerBase = ImmutableMap.of(
+          "aapl", "Apple",
+          "gool", "Google"
+  );
   private TickerSymbolFilter filter;
   private Tuple tuple = MockTupleHelpers.mockAnyTuple();
-
-
-  Map<String, String> tickerBase = ImmutableMap.of(
-    "aapl", "Apple",
-    "gool", "Google"
-  );
 
   @BeforeMethod
   public void setUp() {
@@ -50,7 +48,6 @@ public class TickerSymbolFilterTest {
     filter.setTickerBase(tickerBase);
     tuple = mock(Tuple.class);
   }
-
 
 
   @Test(dataProvider = "getValidStockTweets")
@@ -64,11 +61,11 @@ public class TickerSymbolFilterTest {
 
   @DataProvider
   public Object[][] getValidStockTweets() {
-    return new Object[][] {
-            { "2010\t$AAPL\t01\tup",  "2010\tApple\t01\tup"},
-            { "2010\t$AAPL...\t02\tup", "2010\tApple\t02\tup"},
-            { "2010\t$aapl\t03\tup", "2010\tApple\t03\tup"},
-            { "2012\t$GOOL\t04\tup", "2012\tGoogle\t04\tup"}
+    return new Object[][]{
+            {"2010\t$AAPL\t01\tup", "2010\tApple\t01\tup"},
+            {"2010\t$AAPL...\t02\tup", "2010\tApple\t02\tup"},
+            {"2010\t$aapl\t03\tup", "2010\tApple\t03\tup"},
+            {"2012\t$GOOL\t04\tup", "2012\tGoogle\t04\tup"}
     };
   }
 
@@ -82,11 +79,11 @@ public class TickerSymbolFilterTest {
 
   @DataProvider
   public Object[][] getInvalidStockTweets() {
-    return new Object[][] {
-            { "2010\t$AAPL\t01\t"},
-            { "2010\t$...\t02\tup"},
-            { "2010\t$A\t03\tup"},
-            { "2012"}
+    return new Object[][]{
+            {"2010\t$AAPL\t01\t"},
+            {"2010\t$...\t02\tup"},
+            {"2010\t$A\t03\tup"},
+            {"2012"}
     };
   }
 

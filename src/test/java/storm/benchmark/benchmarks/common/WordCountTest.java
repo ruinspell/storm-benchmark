@@ -67,7 +67,7 @@ public class WordCountTest {
 
   @Test
   public void countBoltShouldCountAndEmitNumberOfEveryWord() {
-    String[] words = { "word", "word", "count"};
+    String[] words = {"word", "word", "count"};
     WordCount.Count bolt = new WordCount.Count();
     Tuple tuple = mock(Tuple.class);
     BasicOutputCollector collector = mock(BasicOutputCollector.class);

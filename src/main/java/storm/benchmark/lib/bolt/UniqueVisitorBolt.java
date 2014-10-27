@@ -33,10 +33,9 @@ import java.util.Set;
 
 public class UniqueVisitorBolt extends RollingBolt {
 
-  private static final long serialVersionUID = -6518481724698629167L;
   public static final String FIELDS_URL = "url";
   public static final String FIELD_UV = "unique_visitor";
-
+  private static final long serialVersionUID = -6518481724698629167L;
   private final SlidingWindow<String, Set<Integer>> window;
   private final Map<String, Set<Integer>> cached;
 

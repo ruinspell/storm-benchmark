@@ -50,8 +50,8 @@ public class FileReader implements Serializable {
       throw new RuntimeException("file contents haven't been loaded");
     }
     if (index >= limit) {
-	    index = 0;
-	  }
+      index = 0;
+    }
     String line = contents.get(index);
     index++;
     return line;

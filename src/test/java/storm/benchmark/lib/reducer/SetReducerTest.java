@@ -41,18 +41,18 @@ public class SetReducerTest {
     assertThat(reducer.isZero(new HashSet<Object>())).isTrue();
   }
 
-  @Test (dataProvider = "getSets")
+  @Test(dataProvider = "getSets")
   public void reduceShouldReturnUnionOfTwoSets(Set set1, Set set2, Set union) {
     assertThat(reducer.reduce(set1, set2)).isEqualTo(union);
   }
 
   @DataProvider
   private Object[][] getSets() {
-    return new Object[][] {
-            { Sets.newHashSet(), Sets.newHashSet(1, 2, 3), Sets.newHashSet(1, 2, 3)},
-            { Sets.newHashSet(1, 2, 3), Sets.newHashSet(), Sets.newHashSet(1, 2, 3)},
-            { Sets.newHashSet(1, 2), Sets.newHashSet(3, 4), Sets.newHashSet(1, 2, 3, 4)},
-            { Sets.newHashSet(1, 2, 3), Sets.newHashSet(2, 3, 4), Sets.newHashSet(1, 2, 3, 4)}
+    return new Object[][]{
+            {Sets.newHashSet(), Sets.newHashSet(1, 2, 3), Sets.newHashSet(1, 2, 3)},
+            {Sets.newHashSet(1, 2, 3), Sets.newHashSet(), Sets.newHashSet(1, 2, 3)},
+            {Sets.newHashSet(1, 2), Sets.newHashSet(3, 4), Sets.newHashSet(1, 2, 3, 4)},
+            {Sets.newHashSet(1, 2, 3), Sets.newHashSet(2, 3, 4), Sets.newHashSet(1, 2, 3, 4)}
     };
   }
 

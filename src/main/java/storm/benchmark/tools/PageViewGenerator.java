@@ -28,19 +28,18 @@ import java.util.*;
 
 
 /**
- *  forked from https://github.com/apache/spark/blob/master/examples/src/main/scala/org/apache/spark/streaming/examples/clickstream/PageViewGenerator.scala
+ * forked from https://github.com/apache/spark/blob/master/examples/src/main/scala/org/apache/spark/streaming/examples/clickstream/PageViewGenerator.scala
  */
 
 public class PageViewGenerator implements Serializable {
 
-  private static final long serialVersionUID = 6825565414146438901L;
   public static final Distribution<String> PAGES = new Distribution<String>(new Pair("foo.com", 0.7),
-                                                            new Pair("foo.news.com", 0.2),
-                                                            new Pair("foo.contact.com", 0.1));
+          new Pair("foo.news.com", 0.2),
+          new Pair("foo.contact.com", 0.1));
   public static final Distribution<Integer> HTTP_STATUS = new Distribution<Integer>(new Pair(200, 0.95), new Pair(404, 0.05));
   public static final Distribution<Integer> USER_ZIP_CODE = new Distribution<Integer>(new Pair(94709, 0.5), new Pair(94117, 0.5));
   public static final Distribution<Integer> USER_ID = Distribution.intEvenDistribution(0, 100);
-
+  private static final long serialVersionUID = 6825565414146438901L;
   private static final Random random = new Random();
 
   public String getNextClickEvent() {
@@ -119,6 +118,7 @@ public class PageViewGenerator implements Serializable {
 
 
   }
+
   public static class Pair<K, V> {
     final K key;
     final V val;

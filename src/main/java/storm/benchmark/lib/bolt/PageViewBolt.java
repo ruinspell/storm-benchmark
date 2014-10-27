@@ -25,6 +25,7 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 import storm.benchmark.lib.spout.pageview.PageView;
+
 import static storm.benchmark.lib.spout.pageview.PageView.Item;
 
 /**
@@ -34,7 +35,6 @@ import static storm.benchmark.lib.spout.pageview.PageView.Item;
  * could be one of the above, the pageview itself or a count ONE.
  * This is flexible enough to feed downstream bolts for such use cases as
  * PageViewCount(URL, ONE) and UniqueVisitorCount(URL, USER)
- *
  */
 
 public class PageViewBolt extends BaseBasicBolt {

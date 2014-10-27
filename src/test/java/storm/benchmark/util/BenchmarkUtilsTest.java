@@ -38,9 +38,9 @@ public class BenchmarkUtilsTest {
 
   @DataProvider
   private Object[][] getAvgs() {
-    return new Object[][] {
-            { Lists.newArrayList(1.0, 3.0, 8.0), 4.0 },
-            { Sets.newHashSet(2.5, 4.5, 9.5), 5.5 }
+    return new Object[][]{
+            {Lists.newArrayList(1.0, 3.0, 8.0), 4.0},
+            {Sets.newHashSet(2.5, 4.5, 9.5), 5.5}
     };
   }
 
@@ -51,9 +51,9 @@ public class BenchmarkUtilsTest {
 
   @DataProvider
   private Object[][] getMaxes() {
-    return new Object[][] {
-            { Lists.newArrayList(1.0, 3.0, 3.0), 3.0 },
-            { Sets.newHashSet(2.5, 4.5, 6.5), 6.5 }
+    return new Object[][]{
+            {Lists.newArrayList(1.0, 3.0, 3.0), 3.0},
+            {Sets.newHashSet(2.5, 4.5, 6.5), 6.5}
     };
   }
 
@@ -89,10 +89,10 @@ public class BenchmarkUtilsTest {
 
   @DataProvider
   private Object[][] getNumberOfAckers() {
-    return new Object[][] {
-            { 0, false },
-            { 1, true },
-            { 2, true }
+    return new Object[][]{
+            {0, false},
+            {1, true},
+            {2, true}
     };
   }
 }

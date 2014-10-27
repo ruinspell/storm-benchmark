@@ -45,16 +45,16 @@ public class StormBenchmarkTest {
 
   @DataProvider
   private Object[][] getStormBenchmark() {
-    return new Object[][] {
-            { new FileReadWordCount(), BasicMetricsCollector.class },
-            { new SOL(), BasicMetricsCollector.class },
-            { new RollingCount(), BasicMetricsCollector.class },
-            { new Grep(), BasicMetricsCollector.class },
-            { new DRPC(), DRPCMetricsCollector.class },
-            { new TridentWordCount(), BasicMetricsCollector.class },
-            { new PageViewCount(), BasicMetricsCollector.class },
-            { new UniqueVisitor(), BasicMetricsCollector.class },
-            { new DataClean(), BasicMetricsCollector.class }
+    return new Object[][]{
+            {new FileReadWordCount(), BasicMetricsCollector.class},
+            {new SOL(), BasicMetricsCollector.class},
+            {new RollingCount(), BasicMetricsCollector.class},
+            {new Grep(), BasicMetricsCollector.class},
+            {new DRPC(), DRPCMetricsCollector.class},
+            {new TridentWordCount(), BasicMetricsCollector.class},
+            {new PageViewCount(), BasicMetricsCollector.class},
+            {new UniqueVisitor(), BasicMetricsCollector.class},
+            {new DataClean(), BasicMetricsCollector.class}
 
     };
   }

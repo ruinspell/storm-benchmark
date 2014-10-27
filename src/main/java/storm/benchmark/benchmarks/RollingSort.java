@@ -41,21 +41,19 @@ import java.util.*;
 
 public class RollingSort extends StormBenchmark {
 
-  private static final Logger LOG = LoggerFactory.getLogger(RollingSort.class);
-
   public static final String SPOUT_ID = "spout";
   public static final String SPOUT_NUM = "component.spout_num";
-  public static final String SORT_BOLT_ID ="sort";
+  public static final String SORT_BOLT_ID = "sort";
   public static final String SORT_BOLT_NUM = "component.sort_bolt_num";
   public static final int DEFAULT_SPOUT_NUM = 4;
   public static final int DEFAULT_SORT_BOLT_NUM = 8;
-
+  private static final Logger LOG = LoggerFactory.getLogger(RollingSort.class);
   private IRichSpout spout;
 
   @Override
   public StormTopology getTopology(Config config) {
     final int spoutNum = BenchmarkUtils.getInt(config, SPOUT_NUM, DEFAULT_SPOUT_NUM);
-    final int boltNum =  BenchmarkUtils.getInt(config, SORT_BOLT_NUM, DEFAULT_SORT_BOLT_NUM);
+    final int boltNum = BenchmarkUtils.getInt(config, SORT_BOLT_NUM, DEFAULT_SORT_BOLT_NUM);
     final int msgSize = BenchmarkUtils.getInt(config, RandomMessageSpout.MESSAGE_SIZE,
             RandomMessageSpout.DEFAULT_MESSAGE_SIZE);
     final int chunkSize = BenchmarkUtils.getInt(config, SortBolt.CHUNK_SIZE,

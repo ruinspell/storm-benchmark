@@ -33,8 +33,6 @@ import java.io.PrintWriter;
 import java.util.*;
 
 public class BasicMetricsCollector implements IMetricsCollector {
-  private static final Logger LOG = LoggerFactory.getLogger(BasicMetricsCollector.class);
-
   /* headers */
   public static final String TIME = "time(s)";
   public static final String TIME_FORMAT = "%d";
@@ -57,12 +55,11 @@ public class BasicMetricsCollector implements IMetricsCollector {
   public static final String SPOUT_AVG_LATENCY_FORMAT = "%.1f";
   public static final String SPOUT_MAX_COMPLETE_LATENCY = "spout_max_complete_latency(ms)";
   public static final String SPOUT_MAX_LATENCY_FORMAT = "%.1f";
-
   public static final String ALL_TIME = ":all-time";
   public static final String LAST_TEN_MINS = "600";
   public static final String LAST_THREE_HOURS = "10800";
   public static final String LAST_DAY = "86400";
-
+  private static final Logger LOG = LoggerFactory.getLogger(BasicMetricsCollector.class);
   final MetricsCollectorConfig config;
   final StormTopology topology;
   final Set<String> header = new LinkedHashSet<String>();

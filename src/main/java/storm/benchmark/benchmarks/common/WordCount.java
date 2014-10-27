@@ -38,8 +38,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class WordCount extends StormBenchmark {
-  private static final Logger LOG = LoggerFactory.getLogger(WordCount.class);
-
   public static final String SPOUT_ID = "spout";
   public static final String SPOUT_NUM = "component.spout_num";
   public static final String SPLIT_ID = "split";
@@ -49,7 +47,7 @@ public abstract class WordCount extends StormBenchmark {
   public static final int DEFAULT_SPOUT_NUM = 8;
   public static final int DEFAULT_SPLIT_BOLT_NUM = 4;
   public static final int DEFAULT_COUNT_BOLT_NUM = 4;
-
+  private static final Logger LOG = LoggerFactory.getLogger(WordCount.class);
   private IRichSpout spout;
 
   @Override
@@ -65,17 +63,17 @@ public abstract class WordCount extends StormBenchmark {
     builder.setBolt(SPLIT_ID, new SplitSentence(), spBoltNum).localOrShuffleGrouping(
             SPOUT_ID);
     builder.setBolt(COUNT_ID, new Count(), cntBoltNum).fieldsGrouping(SPLIT_ID,
-      new Fields(SplitSentence.FIELDS));
+            new Fields(SplitSentence.FIELDS));
 
     return builder.createTopology();
   }
 
-  protected void setSpout(IRichSpout spout) {
-    this.spout = spout;
-  }
-
   public IRichSpout getSpout() {
     return spout;
+  }
+
+  protected void setSpout(IRichSpout spout) {
+    this.spout = spout;
   }
 
   public static class SplitSentence extends BaseBasicBolt {

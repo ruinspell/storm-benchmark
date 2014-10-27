@@ -30,11 +30,10 @@ import java.util.Map;
 
 public abstract class RollingBolt extends BaseBasicBolt {
 
-  private static final long serialVersionUID = 5996017217250945842L;
   public static final int DEFAULT_NUM_WINDOW_CHUNKS = 5;
   public static final int DEFAULT_SLIDING_WINDOW_IN_SECONDS = DEFAULT_NUM_WINDOW_CHUNKS * 60;
   public static final int DEFAULT_EMIT_FREQUENCY_IN_SECONDS = DEFAULT_SLIDING_WINDOW_IN_SECONDS / DEFAULT_NUM_WINDOW_CHUNKS;
-
+  private static final long serialVersionUID = 5996017217250945842L;
   protected final int windowLengthInSeconds;
   protected final int emitFrequencyInSeconds;
 

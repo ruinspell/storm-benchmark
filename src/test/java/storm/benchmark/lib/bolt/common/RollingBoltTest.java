@@ -90,9 +90,9 @@ public class RollingBoltTest {
 
   @DataProvider
   private Object[][] getRollingBolt() {
-    return new Object[][] {
-            { new RollingCountBolt() },
-            { new UniqueVisitorBolt() }
+    return new Object[][]{
+            {new RollingCountBolt()},
+            {new UniqueVisitorBolt()}
     };
   }
 }

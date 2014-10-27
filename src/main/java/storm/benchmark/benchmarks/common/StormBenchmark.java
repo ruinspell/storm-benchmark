@@ -33,8 +33,8 @@ import static storm.benchmark.metrics.IMetricsCollector.MetricsItem;
 
 public abstract class StormBenchmark implements IBenchmark {
 
-  private static final Logger LOG = LoggerFactory.getLogger(StormBenchmark.class);
   public static final String DEFAULT_TOPOLOGY_NAME = "benchmark";
+  private static final Logger LOG = LoggerFactory.getLogger(StormBenchmark.class);
 
   @Override
   public IMetricsCollector getMetricsCollector(Config config, StormTopology topology) {
@@ -45,7 +45,7 @@ public abstract class StormBenchmark implements IBenchmark {
             MetricsItem.THROUGHPUT,
             MetricsItem.SPOUT_THROUGHPUT,
             MetricsItem.SPOUT_LATENCY
-            );
+    );
     return new BasicMetricsCollector(config, topology, items);
   }
 

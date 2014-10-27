@@ -31,10 +31,9 @@ import java.util.Map;
 public class PageViewSpout extends BaseRichSpout {
 
   public static final String FIELDS = "page_view";
-
-  private SpoutOutputCollector collector;
   private final PageViewGenerator generator;
   private final boolean ackEnabled;
+  private SpoutOutputCollector collector;
   private long count = 0;
 
   public PageViewSpout(boolean ackEnabled) {

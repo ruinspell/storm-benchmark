@@ -29,8 +29,8 @@ import backtype.storm.tuple.Values;
 import java.util.Map;
 
 public class ConstBolt extends BaseBasicBolt {
-  private static final long serialVersionUID = -5313598399155365865L;
   public static final String FIELDS = "message";
+  private static final long serialVersionUID = -5313598399155365865L;
 
   public ConstBolt() {
   }

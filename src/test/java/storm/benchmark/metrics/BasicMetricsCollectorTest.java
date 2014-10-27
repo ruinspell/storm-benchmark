@@ -56,11 +56,11 @@ public class BasicMetricsCollectorTest {
     Set<MetricsItem> allButSupervisorStats = Sets.newHashSet(MetricsItem.values());
     allButSupervisorStats.remove(MetricsItem.ALL);
     allButSupervisorStats.remove(MetricsItem.SUPERVISOR_STATS);
-    return new Object[][] {
-            { Sets.newHashSet(MetricsItem.SUPERVISOR_STATS), true },
-            { Sets.newHashSet(MetricsItem.ALL), true },
-            { allButSupervisorStats, false },
-            { Sets.newHashSet(MetricsItem.SUPERVISOR_STATS, MetricsItem.TOPOLOGY_STATS), true }
+    return new Object[][]{
+            {Sets.newHashSet(MetricsItem.SUPERVISOR_STATS), true},
+            {Sets.newHashSet(MetricsItem.ALL), true},
+            {allButSupervisorStats, false},
+            {Sets.newHashSet(MetricsItem.SUPERVISOR_STATS, MetricsItem.TOPOLOGY_STATS), true}
     };
   }
 
@@ -75,11 +75,11 @@ public class BasicMetricsCollectorTest {
     Set<MetricsItem> allButTopologyStats = Sets.newHashSet(MetricsItem.values());
     allButTopologyStats.remove(MetricsItem.ALL);
     allButTopologyStats.remove(MetricsItem.TOPOLOGY_STATS);
-    return new Object[][] {
-            { Sets.newHashSet(MetricsItem.TOPOLOGY_STATS), true },
-            { Sets.newHashSet(MetricsItem.ALL), true },
-            { allButTopologyStats, false },
-            { Sets.newHashSet(MetricsItem.TOPOLOGY_STATS, MetricsItem.SPOUT_LATENCY), true }
+    return new Object[][]{
+            {Sets.newHashSet(MetricsItem.TOPOLOGY_STATS), true},
+            {Sets.newHashSet(MetricsItem.ALL), true},
+            {allButTopologyStats, false},
+            {Sets.newHashSet(MetricsItem.TOPOLOGY_STATS, MetricsItem.SPOUT_LATENCY), true}
     };
   }
 
@@ -91,13 +91,13 @@ public class BasicMetricsCollectorTest {
 
   @DataProvider
   public Object[][] getExecutorMetrics() {
-    return new Object[][] {
-            { Sets.newHashSet(MetricsItem.THROUGHPUT, MetricsItem.SUPERVISOR_STATS), true },
-            { Sets.newHashSet(MetricsItem.THROUGHPUT_IN_MB, MetricsItem.TOPOLOGY_STATS), true },
-            { Sets.newHashSet(MetricsItem.SPOUT_THROUGHPUT), true },
-            { Sets.newHashSet(MetricsItem.SPOUT_LATENCY), true },
-            { Sets.newHashSet(MetricsItem.SUPERVISOR_STATS, MetricsItem.TOPOLOGY_STATS), false },
-            { Sets.newHashSet(MetricsItem.ALL), true},
+    return new Object[][]{
+            {Sets.newHashSet(MetricsItem.THROUGHPUT, MetricsItem.SUPERVISOR_STATS), true},
+            {Sets.newHashSet(MetricsItem.THROUGHPUT_IN_MB, MetricsItem.TOPOLOGY_STATS), true},
+            {Sets.newHashSet(MetricsItem.SPOUT_THROUGHPUT), true},
+            {Sets.newHashSet(MetricsItem.SPOUT_LATENCY), true},
+            {Sets.newHashSet(MetricsItem.SUPERVISOR_STATS, MetricsItem.TOPOLOGY_STATS), false},
+            {Sets.newHashSet(MetricsItem.ALL), true},
     };
   }
 
@@ -112,11 +112,11 @@ public class BasicMetricsCollectorTest {
     Set<MetricsItem> allButThroughput = Sets.newHashSet(MetricsItem.values());
     allButThroughput.remove(MetricsItem.ALL);
     allButThroughput.remove(MetricsItem.THROUGHPUT);
-    return new Object[][] {
-            { Sets.newHashSet(MetricsItem.THROUGHPUT), true },
-            { Sets.newHashSet(MetricsItem.ALL), true},
-            { allButThroughput, false },
-            { Sets.newHashSet(MetricsItem.TOPOLOGY_STATS, MetricsItem.THROUGHPUT), true }
+    return new Object[][]{
+            {Sets.newHashSet(MetricsItem.THROUGHPUT), true},
+            {Sets.newHashSet(MetricsItem.ALL), true},
+            {allButThroughput, false},
+            {Sets.newHashSet(MetricsItem.TOPOLOGY_STATS, MetricsItem.THROUGHPUT), true}
     };
   }
 
@@ -131,11 +131,11 @@ public class BasicMetricsCollectorTest {
     Set<MetricsItem> allButThroughputMB = Sets.newHashSet(MetricsItem.values());
     allButThroughputMB.remove(MetricsItem.ALL);
     allButThroughputMB.remove(MetricsItem.THROUGHPUT_IN_MB);
-    return new Object[][] {
-            { Sets.newHashSet(MetricsItem.THROUGHPUT_IN_MB), true },
-            { Sets.newHashSet(MetricsItem.ALL), true},
-            { allButThroughputMB, false },
-            { Sets.newHashSet(MetricsItem.SUPERVISOR_STATS, MetricsItem.THROUGHPUT_IN_MB), true }
+    return new Object[][]{
+            {Sets.newHashSet(MetricsItem.THROUGHPUT_IN_MB), true},
+            {Sets.newHashSet(MetricsItem.ALL), true},
+            {allButThroughputMB, false},
+            {Sets.newHashSet(MetricsItem.SUPERVISOR_STATS, MetricsItem.THROUGHPUT_IN_MB), true}
     };
   }
 
@@ -150,11 +150,11 @@ public class BasicMetricsCollectorTest {
     Set<MetricsItem> allButSpoutThroughput = Sets.newHashSet(MetricsItem.values());
     allButSpoutThroughput.remove(MetricsItem.ALL);
     allButSpoutThroughput.remove(MetricsItem.SPOUT_THROUGHPUT);
-    return new Object[][] {
-            { Sets.newHashSet(MetricsItem.SPOUT_THROUGHPUT), true },
-            { Sets.newHashSet(MetricsItem.ALL), true},
-            { allButSpoutThroughput, false },
-            { Sets.newHashSet(MetricsItem.THROUGHPUT, MetricsItem.SPOUT_THROUGHPUT), true }
+    return new Object[][]{
+            {Sets.newHashSet(MetricsItem.SPOUT_THROUGHPUT), true},
+            {Sets.newHashSet(MetricsItem.ALL), true},
+            {allButSpoutThroughput, false},
+            {Sets.newHashSet(MetricsItem.THROUGHPUT, MetricsItem.SPOUT_THROUGHPUT), true}
     };
   }
 
@@ -169,11 +169,11 @@ public class BasicMetricsCollectorTest {
     Set<MetricsItem> allButSpoutLatency = Sets.newHashSet(MetricsItem.values());
     allButSpoutLatency.remove(MetricsItem.ALL);
     allButSpoutLatency.remove(MetricsItem.SPOUT_LATENCY);
-    return new Object[][] {
-            { Sets.newHashSet(MetricsItem.SPOUT_LATENCY), true },
-            { Sets.newHashSet(MetricsItem.ALL), true},
-            { allButSpoutLatency, false },
-            { Sets.newHashSet(MetricsItem.THROUGHPUT_IN_MB, MetricsItem.SPOUT_LATENCY), true }
+    return new Object[][]{
+            {Sets.newHashSet(MetricsItem.SPOUT_LATENCY), true},
+            {Sets.newHashSet(MetricsItem.ALL), true},
+            {allButSpoutLatency, false},
+            {Sets.newHashSet(MetricsItem.THROUGHPUT_IN_MB, MetricsItem.SPOUT_LATENCY), true}
     };
 
   }
@@ -228,13 +228,13 @@ public class BasicMetricsCollectorTest {
             BasicMetricsCollector.SPOUT_AVG_COMPLETE_LATENCY,
             BasicMetricsCollector.SPOUT_MAX_COMPLETE_LATENCY
     );
-    return new Object[][] {
-            { Sets.newHashSet(MetricsItem.SUPERVISOR_STATS), supervisor },
-            { Sets.newHashSet(MetricsItem.TOPOLOGY_STATS), topology },
-            { Sets.newHashSet(MetricsItem.THROUGHPUT), throughput },
-            { Sets.newHashSet(MetricsItem.THROUGHPUT_IN_MB), throughputMB },
-            { Sets.newHashSet(MetricsItem.SPOUT_THROUGHPUT), spoutThroughput },
-            { Sets.newHashSet(MetricsItem.SPOUT_LATENCY), spoutLatency }
+    return new Object[][]{
+            {Sets.newHashSet(MetricsItem.SUPERVISOR_STATS), supervisor},
+            {Sets.newHashSet(MetricsItem.TOPOLOGY_STATS), topology},
+            {Sets.newHashSet(MetricsItem.THROUGHPUT), throughput},
+            {Sets.newHashSet(MetricsItem.THROUGHPUT_IN_MB), throughputMB},
+            {Sets.newHashSet(MetricsItem.SPOUT_THROUGHPUT), spoutThroughput},
+            {Sets.newHashSet(MetricsItem.SPOUT_LATENCY), spoutLatency}
     };
   }
 

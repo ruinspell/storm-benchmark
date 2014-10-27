@@ -19,6 +19,8 @@
 package storm.benchmark.metrics;
 
 public interface IMetricsCollector {
+  public void run();
+
   public static enum MetricsItem {
     SUPERVISOR_STATS,
     TOPOLOGY_STATS,
@@ -28,5 +30,4 @@ public interface IMetricsCollector {
     THROUGHPUT_IN_MB,
     ALL
   }
-  public void run();
 }

@@ -34,10 +34,10 @@ public class SlidingWindow<K, V> implements Serializable {
   private static final long serialVersionUID = -2645063988768785810L;
 
   private final Slots<K, V> slots;
-  private int headSlot;
-  private int tailSlot;
   private final int windowLengthInSlots;
   private final Reducer reducer;
+  private int headSlot;
+  private int tailSlot;
 
   public SlidingWindow(Reducer reducer, int windowLengthInSlots) {
     if (windowLengthInSlots < 2) {

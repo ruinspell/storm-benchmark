@@ -61,7 +61,6 @@ import static storm.benchmark.lib.spout.pageview.PageView.Item;
 
 public class DRPC extends StormBenchmark {
 
-  private static final Logger LOG = LoggerFactory.getLogger(DRPC.class);
   public static final String FUNCTION = "reach";
   public static final List<String> ARGS =
           Arrays.asList("foo.com", "foo.news.com", "foo.contact.com");
@@ -75,13 +74,12 @@ public class DRPC extends StormBenchmark {
   public static final String VIEW_NUM = "component.view_bolt_num";
   public static final String USER_NUM = "component.user_bolt_num";
   public static final String FOLLOWER_NUM = "component.follower_bolt_num";
-
   public static final int DEFAULT_SPOUT_NUM = 4;
   public static final int DEFAULT_PAGE_BOLT_NUM = 8;
   public static final int DEFAULT_VIEW_BOLT_NUM = 8;
   public static final int DEFAULT_USER_BOLT_NUM = 4;
   public static final int DEFAULT_FOLLOWER_BOLT_NUM = 4;
-
+  private static final Logger LOG = LoggerFactory.getLogger(DRPC.class);
   private IPartitionedTridentSpout spout;
 
   private String server;
@@ -118,34 +116,34 @@ public class DRPC extends StormBenchmark {
     TridentTopology trident = new TridentTopology();
     TridentState urlToUsers =
             trident.newStream("drpc", spout).parallelismHint(spoutNum).shuffle()
-            .each(new Fields(StringScheme.STRING_SCHEME_KEY), new Extract(Arrays.asList(Item.URL, Item.USER)),
-                    new Fields("url", "user")).parallelismHint(pageNum)
-            .groupBy(new Fields("url"))
-            .persistentAggregate(new MemoryMapState.Factory(), new Fields("url", "user"), new Distinct(), new Fields("user_set"))
-            .parallelismHint(viewNum);
+                    .each(new Fields(StringScheme.STRING_SCHEME_KEY), new Extract(Arrays.asList(Item.URL, Item.USER)),
+                            new Fields("url", "user")).parallelismHint(pageNum)
+                    .groupBy(new Fields("url"))
+                    .persistentAggregate(new MemoryMapState.Factory(), new Fields("url", "user"), new Distinct(), new Fields("user_set"))
+                    .parallelismHint(viewNum);
 /** debug
  *  1. this proves that the aggregated result has successfully persisted
-    urlToUsers.newValuesStream()
-            .each(new Fields("url", "user_set"), new Print("(url, user_set)"), new Fields("url2", "user_set2"));
+ urlToUsers.newValuesStream()
+ .each(new Fields("url", "user_set"), new Print("(url, user_set)"), new Fields("url2", "user_set2"));
  */
     PageViewGenerator generator = new PageViewGenerator();
     TridentState userToFollowers = trident.newStaticState(new StaticSingleKeyMapState.Factory(generator.genFollowersDB()));
 /** debug
-  * 2. this proves that MemoryMapState could be read correctly
-   trident.newStream("urlToUsers", new PageViewSpout(false))
-            .each(new Fields("page_view"), new Extract(Arrays.asList(Item.URL)), new Fields("url"))
-            .each(new Fields("url"), new Print("url"), new Fields("url2"))
-            .groupBy(new Fields("url2"))
-            .stateQuery(urlToUsers, new Fields("url2"),  new MapGet(), new Fields("users"))
-            .each(new Fields("users"), new Print("users"), new Fields("users2"));
-*/
+ * 2. this proves that MemoryMapState could be read correctly
+ trident.newStream("urlToUsers", new PageViewSpout(false))
+ .each(new Fields("page_view"), new Extract(Arrays.asList(Item.URL)), new Fields("url"))
+ .each(new Fields("url"), new Print("url"), new Fields("url2"))
+ .groupBy(new Fields("url2"))
+ .stateQuery(urlToUsers, new Fields("url2"),  new MapGet(), new Fields("users"))
+ .each(new Fields("users"), new Print("users"), new Fields("users2"));
+ */
 /** debug
  *  3. this proves that StaticSingleKeyMapState could be read correctly
-    trident.newStream("userToFollowers", new PageViewSpout(false))
-            .each(new Fields("page_view"), new Extract(Arrays.asList(Item.USER)), new Fields("user"))
-            .each(new Fields("user"), new Print("user"), new Fields("user2"))
-            .stateQuery(userToFollowers, new Fields("user2"), new MapGet(), new Fields("followers"))
-            .each(new Fields("followers"), new Print("followers"), new Fields("followers2"));
+ trident.newStream("userToFollowers", new PageViewSpout(false))
+ .each(new Fields("page_view"), new Extract(Arrays.asList(Item.USER)), new Fields("user"))
+ .each(new Fields("user"), new Print("user"), new Fields("user2"))
+ .stateQuery(userToFollowers, new Fields("user2"), new MapGet(), new Fields("followers"))
+ .each(new Fields("followers"), new Print("followers"), new Fields("followers2"));
  */
     trident.newDRPCStream(FUNCTION, null)
             .each(new Fields("args"), new Print("args"), new Fields("url"))
@@ -167,6 +165,24 @@ public class DRPC extends StormBenchmark {
   }
 
   public static class StaticSingleKeyMapState extends ReadOnlyState implements ReadOnlyMapState<Object> {
+    Map map;
+
+    public StaticSingleKeyMapState(Map map) {
+      this.map = map;
+    }
+
+    @Override
+    public List<Object> multiGet(List<List<Object>> keys) {
+      List<Object> ret = new ArrayList();
+      for (List<Object> key : keys) {
+        Object singleKey = key.get(0);
+        Object value = map.get(singleKey);
+        LOG.debug("get " + value + " for " + singleKey);
+        ret.add(value);
+      }
+      return ret;
+    }
+
     public static class Factory implements StateFactory {
       Map map;
 
@@ -179,25 +195,6 @@ public class DRPC extends StormBenchmark {
         return new StaticSingleKeyMapState(map);
       }
 
-    }
-
-    Map map;
-
-    public StaticSingleKeyMapState(Map map) {
-      this.map = map;
-    }
-
-
-    @Override
-    public List<Object> multiGet(List<List<Object>> keys) {
-      List<Object> ret = new ArrayList();
-      for (List<Object> key : keys) {
-        Object singleKey = key.get(0);
-        Object value = map.get(singleKey);
-        LOG.debug("get " + value + " for " + singleKey);
-        ret.add(value);
-      }
-      return ret;
     }
 
   }

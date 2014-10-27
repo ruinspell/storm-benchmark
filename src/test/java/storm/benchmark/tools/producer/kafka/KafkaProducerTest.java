@@ -45,9 +45,9 @@ public class KafkaProducerTest {
 
   @DataProvider
   private Object[][] getKafkaProducer() {
-    return new Object[][] {
-            { new FileReadKafkaProducer() },
-            { new PageViewKafkaProducer() }
+    return new Object[][]{
+            {new FileReadKafkaProducer()},
+            {new PageViewKafkaProducer()}
     };
   }
 }

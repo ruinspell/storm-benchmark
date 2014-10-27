@@ -47,7 +47,7 @@ public class LocalRunner {
           throws ClassNotFoundException, IllegalAccessException,
           InstantiationException, AlreadyAliveException, InvalidTopologyException {
     LOG.info("running benchmark " + name);
-    IBenchmark benchmark =  (IBenchmark) Runner.getApplicationFromName(name);
+    IBenchmark benchmark = (IBenchmark) Runner.getApplicationFromName(name);
     Config config = new Config();
     config.putAll(Utils.readStormConfig());
     config.setDebug(true);

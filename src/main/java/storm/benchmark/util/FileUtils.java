@@ -34,7 +34,7 @@ public final class FileUtils {
       BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
       try {
         String line;
-        while((line = reader.readLine()) != null) {
+        while ((line = reader.readLine()) != null) {
           lines.add(line);
         }
       } catch (IOException e) {

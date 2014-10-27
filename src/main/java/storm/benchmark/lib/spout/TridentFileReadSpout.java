@@ -32,10 +32,9 @@ import java.util.Map;
 
 public class TridentFileReadSpout implements IBatchSpout {
 
+  public static final String FIELDS = "sentence";
   private static final long serialVersionUID = -3538746749629409899L;
   private static final String DEFAULT_FILE = "/resources/A_Tale_of_Two_City.txt";
-  public static final String FIELDS = "sentence";
-
   private final int maxBatchSize;
   private final FileReader reader;
   private final HashMap<Long, List<String>> batches = new HashMap<Long, List<String>>();
@@ -63,12 +62,12 @@ public class TridentFileReadSpout implements IBatchSpout {
     List<String> batch = batches.get(batchId);
     if (batch == null) {
       batch = new ArrayList<String>();
-      for (int i = 0;  i < maxBatchSize; i++) {
+      for (int i = 0; i < maxBatchSize; i++) {
         batch.add(reader.nextLine());
       }
       batches.put(batchId, batch);
     }
-    for(String line : batch){
+    for (String line : batch) {
       collector.emit(new Values(line));
     }
   }

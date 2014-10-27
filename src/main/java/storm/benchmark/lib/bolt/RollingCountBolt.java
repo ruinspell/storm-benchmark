@@ -39,11 +39,10 @@ import java.util.Map.Entry;
 
 public class RollingCountBolt extends RollingBolt {
 
-  private static final long serialVersionUID = -903093673694769540L;
-  private static final Logger LOG = LoggerFactory.getLogger(RollingCountBolt.class);
   public static final String FIELDS_OBJ = "obj";
   public static final String FIELDS_CNT = "count";
-
+  private static final long serialVersionUID = -903093673694769540L;
+  private static final Logger LOG = LoggerFactory.getLogger(RollingCountBolt.class);
   private final SlidingWindow<Object, Long> window;
 
   public RollingCountBolt() {
