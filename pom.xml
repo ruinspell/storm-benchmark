@@ -25,9 +25,11 @@
   <packaging>jar</packaging>
   <version>0.1.0</version>
   <name>storm-benchmark</name>
-
   <properties>
-    <storm.version>0.9.3</storm.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+    <storm.version>0.10.0-beta1</storm.version>
   </properties>
   <dependencies>
     <dependency>
@@ -70,6 +72,16 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>13.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>1.16</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jgrapht</groupId>
+      <artifactId>jgrapht-core</artifactId>
+      <version>0.9.1</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
