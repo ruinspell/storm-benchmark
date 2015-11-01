@@ -50,7 +50,7 @@ public final class KafkaUtils {
     String appId = (String) Utils.get(options, CLIENT_ID, "storm-app");
 
     SpoutConfig config = new SpoutConfig(hosts, topic, kafkaRoot, appId);
-//    config.forceFromStart = true;
+    config.ignoreZkOffsets = true;
     config.zkServers = new ArrayList<String>();
 
     String [] servers = zkServers.split(",");
